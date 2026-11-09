@@ -181,4 +181,104 @@ jQuery( function ( $ ) {
 			$(".site-header.is-sticky").removeClass("shrink");
 		}
 	});
-})
+});
+
+/**
+ * Image Studio Mobile Navigation Handler
+ * Supports mobile hamburger toggle, backdrop overlay, subpage injection, ESC key, and smooth interaction.
+ */
+(function() {
+  function initImageStudioMobileNav() {
+    var headerWrap = document.querySelector('.site-header .wrap');
+    var existingActions = document.querySelector('.mobile-header-actions');
+    
+    if (headerWrap && !existingActions) {
+      existingActions = document.createElement('div');
+      existingActions.className = 'mobile-header-actions';
+      existingActions.innerHTML = 
+        '<a href="index.html#trend" class="mobile-trends-pill">' +
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="#1a1a1a" style="margin-right: 5px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>' +
+        'TRENDS' +
+        '</a>' +
+        '<button class="mobile-hamburger-btn" id="custom-mobile-menu-toggle" aria-label="Menu" aria-expanded="false">' +
+        '<span></span>' +
+        '<span></span>' +
+        '<span></span>' +
+        '</button>';
+      headerWrap.appendChild(existingActions);
+    }
+
+    var toggleBtn = document.getElementById('custom-mobile-menu-toggle') || document.querySelector('.mobile-hamburger-btn');
+    var navSecondary = document.querySelector('.nav-secondary');
+
+    var backdrop = document.querySelector('.image-studio-menu-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.className = 'image-studio-menu-backdrop';
+      document.body.appendChild(backdrop);
+    }
+
+    if (!toggleBtn) return;
+
+    function openMenu() {
+      document.body.classList.add('mobile-nav-open');
+      toggleBtn.classList.add('is-active');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      if (navSecondary) navSecondary.classList.add('is-open');
+    }
+
+    function closeMenu() {
+      document.body.classList.remove('mobile-nav-open');
+      toggleBtn.classList.remove('is-active');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      if (navSecondary) navSecondary.classList.remove('is-open');
+    }
+
+    function toggleMenu(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      if (document.body.classList.contains('mobile-nav-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    }
+
+    toggleBtn.removeEventListener('click', toggleMenu);
+    toggleBtn.addEventListener('click', toggleMenu);
+
+    backdrop.addEventListener('click', function(e) {
+      e.preventDefault();
+      closeMenu();
+    });
+
+    if (navSecondary) {
+      var links = navSecondary.querySelectorAll('a');
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function() {
+          closeMenu();
+        });
+      }
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.body.classList.contains('mobile-nav-open')) {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', function() {
+      if (window.innerWidth >= 1024 && document.body.classList.contains('mobile-nav-open')) {
+        closeMenu();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initImageStudioMobileNav);
+  } else {
+    initImageStudioMobileNav();
+  }
+})();

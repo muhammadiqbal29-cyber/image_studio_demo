@@ -2597,19 +2597,41 @@ html, body {
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
-    width: 24px !important;
-    height: 17px !important;
+    align-items: center !important;
+    width: 38px !important;
+    height: 38px !important;
+    padding: 10px 7px !important;
     background: transparent !important;
     border: none !important;
-    padding: 0 !important;
     cursor: pointer !important;
+    box-sizing: border-box !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    position: relative !important;
+    z-index: 100000 !important;
   }
   .mobile-hamburger-btn span {
     display: block !important;
-    width: 100% !important;
+    width: 24px !important;
     height: 2.2px !important;
     background-color: #1a1a1a !important;
     border-radius: 2px !important;
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+                opacity 0.2s ease,
+                background-color 0.2s ease !important;
+    transform-origin: center !important;
+  }
+
+  /* Hamburger transformation to X */
+  .mobile-hamburger-btn.is-active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg) !important;
+  }
+  .mobile-hamburger-btn.is-active span:nth-child(2) {
+    opacity: 0 !important;
+    transform: scaleX(0) !important;
+  }
+  .mobile-hamburger-btn.is-active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg) !important;
   }
 
   /* Hide default Genesis mobile button, desktop right nav, search overlay */
@@ -2619,9 +2641,121 @@ html, body {
   .genesis-skip-link,
   button.menu-toggle,
   .site-header .nav-wrapper,
-  .site-header .honeydew-search,
+  .site-header .honeydew-search {
+    display: none !important;
+  }
+
+  /* Mobile Navigation Menu Dropdown */
   .nav-secondary {
     display: none !important;
+  }
+
+  body.mobile-nav-open {
+    overflow: hidden !important;
+  }
+
+  .nav-secondary.is-open,
+  body.mobile-nav-open .nav-secondary {
+    display: block !important;
+    position: fixed !important;
+    top: 64px !important;
+    left: 0 !important;
+    width: 100vw !important;
+    max-height: calc(100vh - 64px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    background: #ffffff !important;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12) !important;
+    z-index: 99999 !important;
+    border-top: 1px solid #f0ece7 !important;
+    border-bottom: 2px solid #f6ba2a !important;
+    padding: 8px 0 24px 0 !important;
+    animation: imageStudioMenuSlideDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  }
+
+  @keyframes imageStudioMenuSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .nav-secondary.is-open .wrap,
+  body.mobile-nav-open .nav-secondary .wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .nav-secondary.is-open ul.genesis-nav-menu,
+  body.mobile-nav-open .nav-secondary ul.genesis-nav-menu {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+  }
+
+  .nav-secondary.is-open ul.genesis-nav-menu > li,
+  body.mobile-nav-open .nav-secondary ul.genesis-nav-menu > li {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 1px solid #f3eee9 !important;
+    text-align: left !important;
+  }
+
+  .nav-secondary.is-open ul.genesis-nav-menu > li > a,
+  body.mobile-nav-open .nav-secondary ul.genesis-nav-menu > li > a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 15px 24px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #1a1a1a !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease, color 0.2s ease, padding-left 0.2s ease !important;
+  }
+
+  .nav-secondary.is-open ul.genesis-nav-menu > li > a:hover,
+  .nav-secondary.is-open ul.genesis-nav-menu > li > a:active,
+  body.mobile-nav-open .nav-secondary ul.genesis-nav-menu > li > a:hover,
+  body.mobile-nav-open .nav-secondary ul.genesis-nav-menu > li > a:active {
+    background-color: #faf5f1 !important;
+    color: #b8860b !important;
+    padding-left: 28px !important;
+  }
+
+  /* Backdrop Overlay */
+  .image-studio-menu-backdrop {
+    position: fixed !important;
+    top: 64px !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 64px) !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+    z-index: 99998 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease !important;
+  }
+
+  body.mobile-nav-open .image-studio-menu-backdrop {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 
   /* DISABLE Elementor motion effects layer on mobile so it doesn't show desktop image */
@@ -2849,7 +2983,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <svg width="13" height="13" viewBox="0 0 24 24" fill="#1a1a1a" style="margin-right: 5px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
     TRENDS
   </a>
-  <button class="mobile-hamburger-btn" id="custom-mobile-menu-toggle" aria-label="Menu">
+  <button class="mobile-hamburger-btn" id="custom-mobile-menu-toggle" aria-label="Menu" onclick="toggleImageStudioMenu(event)">
     <span></span>
     <span></span>
     <span></span>
@@ -2864,7 +2998,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <li id="menu-item-27716" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27716"><a href="shop.html" itemprop="url"><span itemprop="name">Shop</span></a></li>
 <li id="menu-item-27715" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-27715"><a href="my-account.html" itemprop="url"><span itemprop="name">My account</span></a></li>
 <li id="menu-item-19936" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-19936"><a href="contact.html" itemprop="url"><span itemprop="name">Contact</span></a></li>
-</ul></div></nav><div class="site-inner">		<div data-elementor-type="wp-page" data-elementor-id="3507" class="elementor elementor-3507" data-elementor-post-type="page">
+</ul></div></nav>
+<script id="image-studio-mobile-nav-immediate">
+function toggleImageStudioMenu(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  var isOpen = document.body.classList.contains('mobile-nav-open');
+  var btn = document.getElementById('custom-mobile-menu-toggle') || (e ? e.currentTarget : null);
+  var nav = document.querySelector('.nav-secondary');
+  var backdrop = document.querySelector('.image-studio-menu-backdrop');
+  
+  if (!backdrop) {
+    backdrop = document.createElement('div');
+    backdrop.className = 'image-studio-menu-backdrop';
+    backdrop.onclick = function(ev) {
+      if (ev) ev.preventDefault();
+      toggleImageStudioMenu();
+    };
+    document.body.appendChild(backdrop);
+  }
+  
+  if (isOpen) {
+    document.body.classList.remove('mobile-nav-open');
+    if (btn) {
+      btn.classList.remove('is-active');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+    if (nav) nav.classList.remove('is-open');
+  } else {
+    document.body.classList.add('mobile-nav-open');
+    if (btn) {
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-expanded', 'true');
+    }
+    if (nav) nav.classList.add('is-open');
+  }
+}
+
+// Bind clicks on links inside nav-secondary to close menu
+document.addEventListener('click', function(e) {
+  if (document.body.classList.contains('mobile-nav-open')) {
+    var link = e.target.closest('.nav-secondary a');
+    if (link) {
+      toggleImageStudioMenu();
+    }
+  }
+});
+
+// ESC key closes menu
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.body.classList.contains('mobile-nav-open')) {
+    toggleImageStudioMenu();
+  }
+});
+</script><div class="site-inner">		<div data-elementor-type="wp-page" data-elementor-id="3507" class="elementor elementor-3507" data-elementor-post-type="page">
 				<div class="elementor-element elementor-element-03aa0de e-con-full animated-slow e-flex elementor-invisible e-con e-parent" data-id="03aa0de" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;classic&quot;,&quot;animation&quot;:&quot;fadeIn&quot;}">
 		<div class="elementor-element elementor-element-ed53359 e-con-full animated-slow e-flex elementor-invisible e-con e-child" data-id="ed53359" data-element_type="container" data-e-type="container" data-settings="{&quot;background_background&quot;:&quot;slideshow&quot;,&quot;animation&quot;:&quot;fadeIn&quot;,&quot;background_slideshow_gallery&quot;:[],&quot;background_slideshow_loop&quot;:&quot;yes&quot;,&quot;background_slideshow_slide_duration&quot;:5000,&quot;background_slideshow_slide_transition&quot;:&quot;fade&quot;,&quot;background_slideshow_transition_duration&quot;:500}">
 				<div class="elementor-element elementor-element-c1ea76a elementor-widget__width-inherit elementor-widget elementor-widget-heading" data-id="c1ea76a" data-element_type="widget" data-e-type="widget" data-settings="{&quot;_animation&quot;:&quot;none&quot;}" data-widget_type="heading.default">
