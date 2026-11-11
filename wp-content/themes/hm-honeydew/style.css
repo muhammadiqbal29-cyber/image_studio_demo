@@ -5641,3 +5641,356 @@ button.slick-prev.slick-arrow {
     font-style: italic !important;
   }
 }
+
+/* ==========================================================================
+   Personal Color Analysis (Offline Service) Styles
+   ========================================================================== */
+.personal-color-badge-offline {
+  display: inline-block;
+  background-color: #1a1a1a;
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  line-height: 1.4;
+  vertical-align: middle;
+}
+
+.personal-color-section-wrapper {
+  max-width: 1140px;
+  margin: 40px auto 45px;
+  padding: 0 15px;
+  box-sizing: border-box;
+}
+
+.personal-color-card-detailed {
+  background: #B1C1C5;
+  border-radius: 16px;
+  padding: 45px 35px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.pc-detail-header {
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 30px;
+}
+
+.pc-detail-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #3d4a52;
+  margin-bottom: 8px;
+}
+
+.pc-detail-title {
+  font-family: "Georgia", serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #111111;
+  margin: 10px 0 12px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+}
+
+.pc-detail-subtitle {
+  font-size: 16px;
+  font-style: italic;
+  color: #2b363c;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.pc-dimensions-lead {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #1a2226;
+  max-width: 820px;
+  margin: 0 auto 22px;
+  line-height: 1.5;
+}
+
+.pc-dim-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 35px;
+}
+
+.pc-dim-item {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 18px 16px;
+  border-radius: 10px;
+  border-left: 3px solid #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.pc-dim-tag {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #666666;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.pc-dim-heading {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 6px;
+}
+
+.pc-dim-text {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #444444;
+  margin: 0;
+}
+
+.pc-columns-container {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.pc-box-panel {
+  background: #ffffff;
+  padding: 30px 26px;
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+}
+
+.pc-panel-heading {
+  font-family: "Georgia", serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111111;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.pc-discovery-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+}
+
+.pc-discovery-ul li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 11px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #2b363c;
+}
+
+.pc-discovery-ul li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #5c7479;
+  font-size: 13px;
+}
+
+.pc-guide-block {
+  background: #f7f9fa;
+  border-radius: 8px;
+  padding: 16px 18px;
+  border-left: 3px solid #5c7479;
+}
+
+.pc-guide-block h5 {
+  font-size: 13.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #1a2226;
+}
+
+.pc-guide-block p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #444444;
+  margin: 0;
+}
+
+.pc-price-box {
+  background: #fdfdfd;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pc-price-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.pc-price-box.pc-exclusive {
+  border: 2px solid #1a1a1a;
+  background: #ffffff;
+}
+
+.pc-price-consultant {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #4a5568;
+  margin-bottom: 4px;
+}
+
+.pc-price-amount {
+  font-family: "Georgia", serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 6px;
+}
+
+.pc-price-note {
+  font-size: 12.5px;
+  color: #666666;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.pc-cta-btn {
+  display: block;
+  text-align: center;
+  background: #1a1a1a;
+  color: #ffffff !important;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  border-radius: 30px;
+  margin-top: 18px;
+  transition: background 0.2s;
+}
+
+.pc-cta-btn:hover {
+  background: #333333;
+}
+
+.card-view-detail-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: #1a1a1a;
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.card-view-detail-btn:hover {
+  background: #333333;
+}
+
+@media (max-width: 960px) {
+  .pc-dim-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .pc-columns-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .personal-color-card-detailed {
+    padding: 28px 18px;
+  }
+  .pc-detail-title {
+    font-size: 24px;
+  }
+  .pc-dim-grid {
+    grid-template-columns: 1fr;
+  }
+  .pc-box-panel {
+    padding: 22px 16px;
+  }
+}
+
+/* Refinements for Personal Color Analysis */
+html {
+  scroll-behavior: smooth;
+}
+
+.pc-discovery-ul,
+.entry-content .pc-discovery-ul,
+article .entry-content ul.pc-discovery-ul {
+  list-style: none !important;
+  list-style-type: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  margin-bottom: 24px !important;
+}
+
+.pc-discovery-ul li,
+.entry-content .pc-discovery-ul li,
+article .entry-content ul.pc-discovery-ul li {
+  list-style: none !important;
+  list-style-type: none !important;
+  position: relative !important;
+  padding-left: 24px !important;
+  margin-bottom: 11px !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  color: #2b363c !important;
+}
+
+.pc-discovery-ul li::before,
+.entry-content .pc-discovery-ul li::before,
+article .entry-content ul.pc-discovery-ul li::before {
+  content: "✦" !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 0 !important;
+  color: #5c7479 !important;
+  font-size: 13px !important;
+}
+
+.card-view-detail-btn {
+  display: inline-block !important;
+  margin-top: 10px !important;
+  padding: 8px 18px !important;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  border-radius: 20px !important;
+  text-decoration: none !important;
+  transition: all 0.2s !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+}
+
+.card-view-detail-btn:hover {
+  background: #333333 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+}
