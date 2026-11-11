@@ -495,7 +495,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-image: url('images/hero-fix.png');
+  background-image: url('images/hero.png');
   background-position: right top;
   background-size: cover;
   background-repeat: no-repeat;
