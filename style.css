@@ -1802,3 +1802,32 @@ article .entry-content ul.pc-discovery-ul li::before {
   color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
+
+/* Hero Section Typography Enhancements */
+.hero-subhead,
+.elementor-3507 .elementor-element.elementor-element-82a7264 .hero-subhead,
+.elementor-3507 .elementor-element.elementor-element-82a7264 .hero-subhead span {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: clamp(18px, 4.5vw, 22px) !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+  font-style: italic !important;
+  color: #1a1a1a !important;
+  margin: 0 0 8px 0 !important;
+  display: block !important;
+  text-align: left !important;
+}
+
+.hero-desc,
+.elementor-3507 .elementor-element.elementor-element-82a7264 .hero-desc,
+.elementor-3507 .elementor-element.elementor-element-82a7264 .hero-desc span {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: clamp(13px, 3.4vw, 14.5px) !important;
+  line-height: 1.5 !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  color: #4a4440 !important;
+  margin: 0 0 18px 0 !important;
+  display: block !important;
+  text-align: left !important;
+}
