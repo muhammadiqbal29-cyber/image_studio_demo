@@ -7,6 +7,596 @@
 <link rel="preload" as="image" href="/images/hero.png" media="(min-width: 1024px)" fetchpriority="high" />
 <link rel="preload" as="image" href="/images/hero-mobile-new.png" media="(max-width: 1023px)" fetchpriority="high" />
 <title>Discover Your Personal Image - Image Studio</title>
+<style id="hanum-onepage-styles">
+.booking-pill-btn {
+  display: inline-block !important;
+  width: auto !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.28) !important;
+  padding: 9px 20px !important;
+  border-radius: 25px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.5px !important;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+}
+.booking-pill-btn:hover {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+  border-color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+section[id], div[id^="service-"] {
+  scroll-margin-top: 85px;
+}
+.site-section {
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* Badges */
+.badge-offline {
+  display: inline-block;
+  background: #fbf3ee;
+  color: #8c5b3f;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #ebd6c8;
+}
+.badge-online {
+  display: inline-block;
+  background: #edf6f2;
+  color: #386b52;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid #c9e5d7;
+  margin-right: 4px;
+}
+
+/* Service Cards */
+.services-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.service-overview-card {
+  background: #ffffff;
+  border: 1px solid #eae5de;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+.service-overview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+.service-card-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4efe9;
+}
+.service-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+.service-overview-card:hover .service-card-media img {
+  transform: scale(1.03);
+}
+.service-card-content {
+  padding: 22px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.service-card-badge-row {
+  margin-bottom: 10px;
+}
+.service-card-title {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 21px !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
+  color: #1a1a1a !important;
+  margin: 0 0 6px !important;
+}
+.service-card-tagline {
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.45;
+  color: #635a52;
+  margin: 0 0 12px;
+}
+.service-card-divider {
+  height: 1px;
+  background: #eae5de;
+  margin: 0 0 12px;
+}
+.service-card-deliverables {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 0 16px !important;
+  flex-grow: 1;
+}
+.service-card-deliverables li {
+  position: relative !important;
+  padding-left: 18px !important;
+  margin-bottom: 8px !important;
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+  color: #3b3734 !important;
+}
+.service-card-deliverables li::before {
+  content: "•";
+  position: absolute;
+  left: 3px;
+  top: -1px;
+  color: #8c7f74;
+  font-size: 15px;
+}
+.service-card-footer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed #e5dfd6;
+  text-align: center;
+}
+.service-card-meta {
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #7a7067;
+  margin-bottom: 4px;
+}
+.service-card-price {
+  font-size: 15.5px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+.service-card-cta-btn {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 9px 14px;
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-radius: 20px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+.service-card-cta-btn:hover {
+  background: #383838 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+/* Dimension 4-Grid */
+.dimension-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 35px;
+}
+.dimension-item {
+  background: #ffffff;
+  padding: 22px 18px;
+  border-radius: 12px;
+  border: 1px solid #ebe5dc;
+  border-left: 3px solid #1a1a1a;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.dimension-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #8c7f74;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.dimension-name {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.dimension-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4f4842;
+  margin: 0;
+}
+
+/* Discoveries 3x3 Grid */
+.discoveries-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 35px;
+}
+.discovery-item-card {
+  background: #ffffff;
+  border: 1px solid #ebe5dc;
+  border-radius: 10px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+.discovery-icon {
+  font-size: 16px;
+  color: #8c7f74;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.discovery-text {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #2e2a27;
+}
+
+/* Pricing Grid */
+.options-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+.pricing-card {
+  background: #ffffff;
+  border: 1px solid #ebe5dc;
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+.pricing-card.featured {
+  border: 2px solid #1a1a1a;
+  position: relative;
+}
+.pricing-badge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a1a;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 12px;
+  border-radius: 10px;
+}
+.pricing-who {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #7d7269;
+  margin-bottom: 6px;
+}
+.pricing-fee {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.pricing-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #554e47;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+/* Consultant Grid */
+.consultant-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 50px;
+  align-items: center;
+}
+.consultant-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* Portfolio Grid */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+/* Booking Steps */
+.booking-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 35px;
+}
+.booking-step-card {
+  background: #ffffff;
+  border: 1px solid #ebe5dc;
+  border-radius: 12px;
+  padding: 26px 22px;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+}
+.booking-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.booking-step-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+.booking-step-desc {
+  font-size: 13px;
+  line-height: 1.55;
+  color: #5c554e;
+  margin: 0;
+}
+
+/* Testimonials & FAQ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 50px;
+}
+.testimonial-card {
+  background: #ffffff;
+  border: 1px solid #ece6df;
+  border-radius: 14px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+}
+.testimonial-quote {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 17px !important;
+  font-style: italic !important;
+  line-height: 1.6 !important;
+  color: #2b2826 !important;
+  margin: 0 0 18px !important;
+  flex-grow: 1;
+}
+.testimonial-client {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #f0ebe4;
+}
+.testimonial-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #eae3da;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #4a423a;
+  font-size: 14px;
+}
+.testimonial-meta-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+.testimonial-meta-service {
+  font-size: 12px;
+  color: #8c7f74;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.faq-card {
+  background: #fdfbf9;
+  border: 1px solid #eae5de;
+  border-radius: 12px;
+  padding: 22px 20px;
+}
+.faq-q {
+  font-size: 15.5px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+  line-height: 1.4;
+}
+.faq-a {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #554e47;
+  margin: 0;
+}
+
+/* Footer Section */
+.clean-footer {
+  background: #1a1a1a;
+  color: #f5f2ed;
+  padding: 60px 0 35px;
+  border-top: 1px solid #333333;
+}
+.clean-footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
+  gap: 40px;
+  margin-bottom: 45px;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.clean-footer-col h4 {
+  font-family: "Cormorant Garamond", Georgia, serif !important;
+  font-size: 20px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin: 0 0 16px !important;
+  letter-spacing: 0.5px;
+}
+.clean-footer-col p {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: #b5afa7;
+  margin: 0 0 14px;
+}
+.clean-footer-links {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.clean-footer-links li {
+  margin-bottom: 10px;
+}
+.clean-footer-links a {
+  color: #b5afa7 !important;
+  text-decoration: none !important;
+  font-size: 13.5px;
+  transition: color 0.2s ease;
+}
+.clean-footer-links a:hover {
+  color: #ffffff !important;
+}
+.clean-footer-bottom {
+  border-top: 1px solid #333333;
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12.5px;
+  color: #88827a;
+  max-width: 1180px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Responsive Rules */
+@media (max-width: 1023px) {
+  .services-overview-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .dimension-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .discoveries-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .options-pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  .consultant-grid {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    text-align: center;
+  }
+  .consultant-badges-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .booking-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .testimonials-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .clean-footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+@media (max-width: 640px) {
+  .services-overview-grid {
+    grid-template-columns: 1fr;
+  }
+  .dimension-grid {
+    grid-template-columns: 1fr;
+  }
+  .discoveries-grid {
+    grid-template-columns: 1fr;
+  }
+  .consultant-badges-grid {
+    grid-template-columns: 1fr;
+  }
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+  .clean-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  .clean-footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+}
+</style>
 
 		<!-- All in One SEO 5.0.5 - aioseo.com -->
 	<meta name="description" content="Discover Your Personal Image - Temukan versi terbaik dirimu. Kenali warna, karakter wajah, Makeup, proporsi tubuh, dan gaya berpakaian yang selaras dengan keunikan dirimu melalui konsultasi personal image di Image Studio." />
@@ -3201,596 +3791,7 @@ html, body {
 }
 </style>
 
-<style id="hanum-onepage-styles">
-.booking-pill-btn {
-  display: inline-block !important;
-  width: auto !important;
-  background: rgba(255, 255, 255, 0.12) !important;
-  color: #ffffff !important;
-  border: 1px solid rgba(255, 255, 255, 0.28) !important;
-  padding: 9px 20px !important;
-  border-radius: 25px !important;
-  font-size: 12px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.5px !important;
-  text-decoration: none !important;
-  transition: all 0.25s ease !important;
-}
-.booking-pill-btn:hover {
-  background: #ffffff !important;
-  color: #1a1a1a !important;
-  border-color: #ffffff !important;
-  transform: translateY(-2px);
-}
 
-html {
-  scroll-behavior: smooth;
-}
-section[id], div[id^="service-"] {
-  scroll-margin-top: 85px;
-}
-.site-section {
-  position: relative;
-  box-sizing: border-box;
-}
-
-/* Badges */
-.badge-offline {
-  display: inline-block;
-  background: #fbf3ee;
-  color: #8c5b3f;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  border: 1px solid #ebd6c8;
-}
-.badge-online {
-  display: inline-block;
-  background: #edf6f2;
-  color: #386b52;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  border: 1px solid #c9e5d7;
-  margin-right: 4px;
-}
-
-/* Service Cards */
-.services-overview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.service-overview-card {
-  background: #ffffff;
-  border: 1px solid #eae5de;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-.service-overview-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-}
-.service-card-media {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #f4efe9;
-}
-.service-card-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.35s ease;
-}
-.service-overview-card:hover .service-card-media img {
-  transform: scale(1.03);
-}
-.service-card-content {
-  padding: 22px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.service-card-badge-row {
-  margin-bottom: 10px;
-}
-.service-card-title {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 21px !important;
-  font-weight: 700 !important;
-  line-height: 1.25 !important;
-  color: #1a1a1a !important;
-  margin: 0 0 6px !important;
-}
-.service-card-tagline {
-  font-size: 13px;
-  font-style: italic;
-  line-height: 1.45;
-  color: #635a52;
-  margin: 0 0 12px;
-}
-.service-card-divider {
-  height: 1px;
-  background: #eae5de;
-  margin: 0 0 12px;
-}
-.service-card-deliverables {
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 0 16px !important;
-  flex-grow: 1;
-}
-.service-card-deliverables li {
-  position: relative !important;
-  padding-left: 18px !important;
-  margin-bottom: 8px !important;
-  font-size: 12.5px !important;
-  line-height: 1.45 !important;
-  color: #3b3734 !important;
-}
-.service-card-deliverables li::before {
-  content: "•";
-  position: absolute;
-  left: 3px;
-  top: -1px;
-  color: #8c7f74;
-  font-size: 15px;
-}
-.service-card-footer {
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px dashed #e5dfd6;
-  text-align: center;
-}
-.service-card-meta {
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #7a7067;
-  margin-bottom: 4px;
-}
-.service-card-price {
-  font-size: 15.5px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-  line-height: 1.35;
-}
-.service-card-cta-btn {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 9px 14px;
-  background: #1a1a1a !important;
-  color: #ffffff !important;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  border-radius: 20px;
-  text-decoration: none !important;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-.service-card-cta-btn:hover {
-  background: #383838 !important;
-  color: #ffffff !important;
-  transform: translateY(-1px);
-}
-
-/* Dimension 4-Grid */
-.dimension-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 35px;
-}
-.dimension-item {
-  background: #ffffff;
-  padding: 22px 18px;
-  border-radius: 12px;
-  border: 1px solid #ebe5dc;
-  border-left: 3px solid #1a1a1a;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-}
-.dimension-num {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #8c7f74;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.dimension-name {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.dimension-desc {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #4f4842;
-  margin: 0;
-}
-
-/* Discoveries 3x3 Grid */
-.discoveries-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 35px;
-}
-.discovery-item-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 10px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-}
-.discovery-icon {
-  font-size: 16px;
-  color: #8c7f74;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.discovery-text {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: #2e2a27;
-}
-
-/* Pricing Grid */
-.options-pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 24px;
-}
-.pricing-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 12px;
-  padding: 24px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-.pricing-card.featured {
-  border: 2px solid #1a1a1a;
-  position: relative;
-}
-.pricing-badge {
-  position: absolute;
-  top: -11px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 12px;
-  border-radius: 10px;
-}
-.pricing-who {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #7d7269;
-  margin-bottom: 6px;
-}
-.pricing-fee {
-  font-size: 24px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.pricing-desc {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #554e47;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-/* Consultant Grid */
-.consultant-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 50px;
-  align-items: center;
-}
-.consultant-badges-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
-/* Portfolio Grid */
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-/* Booking Steps */
-.booking-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 35px;
-}
-.booking-step-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 12px;
-  padding: 26px 22px;
-  text-align: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-}
-.booking-step-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-.booking-step-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.booking-step-desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #5c554e;
-  margin: 0;
-}
-
-/* Testimonials & FAQ */
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 50px;
-}
-.testimonial-card {
-  background: #ffffff;
-  border: 1px solid #ece6df;
-  border-radius: 14px;
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
-}
-.testimonial-quote {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 17px !important;
-  font-style: italic !important;
-  line-height: 1.6 !important;
-  color: #2b2826 !important;
-  margin: 0 0 18px !important;
-  flex-grow: 1;
-}
-.testimonial-client {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid #f0ebe4;
-}
-.testimonial-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #eae3da;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: #4a423a;
-  font-size: 14px;
-}
-.testimonial-meta-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-.testimonial-meta-service {
-  font-size: 12px;
-  color: #8c7f74;
-}
-
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-.faq-card {
-  background: #fdfbf9;
-  border: 1px solid #eae5de;
-  border-radius: 12px;
-  padding: 22px 20px;
-}
-.faq-q {
-  font-size: 15.5px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
-.faq-a {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #554e47;
-  margin: 0;
-}
-
-/* Footer Section */
-.clean-footer {
-  background: #1a1a1a;
-  color: #f5f2ed;
-  padding: 60px 0 35px;
-  border-top: 1px solid #333333;
-}
-.clean-footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-  gap: 40px;
-  margin-bottom: 45px;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-.clean-footer-col h4 {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  margin: 0 0 16px !important;
-  letter-spacing: 0.5px;
-}
-.clean-footer-col p {
-  font-size: 13.5px;
-  line-height: 1.7;
-  color: #b5afa7;
-  margin: 0 0 14px;
-}
-.clean-footer-links {
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.clean-footer-links li {
-  margin-bottom: 10px;
-}
-.clean-footer-links a {
-  color: #b5afa7 !important;
-  text-decoration: none !important;
-  font-size: 13.5px;
-  transition: color 0.2s ease;
-}
-.clean-footer-links a:hover {
-  color: #ffffff !important;
-}
-.clean-footer-bottom {
-  border-top: 1px solid #333333;
-  padding-top: 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12.5px;
-  color: #88827a;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-  box-sizing: border-box;
-}
-
-/* Responsive Rules */
-@media (max-width: 1023px) {
-  .services-overview-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-  .dimension-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .discoveries-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .options-pricing-grid {
-    grid-template-columns: 1fr;
-  }
-  .consultant-grid {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    text-align: center;
-  }
-  .consultant-badges-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .booking-steps-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .faq-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .clean-footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-}
-
-@media (max-width: 640px) {
-  .services-overview-grid {
-    grid-template-columns: 1fr;
-  }
-  .dimension-grid {
-    grid-template-columns: 1fr;
-  }
-  .discoveries-grid {
-    grid-template-columns: 1fr;
-  }
-  .consultant-badges-grid {
-    grid-template-columns: 1fr;
-  }
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-  }
-  .clean-footer-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  .clean-footer-bottom {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-}
-</style>
 
 </head>
 <body class="home wp-singular page-template page-template-elementor_header_footer page page-id-3507 wp-theme-genesis wp-child-theme-hm-honeydew theme-genesis surecart-theme-light woocommerce-no-js eio-default ehf-template-genesis ehf-stylesheet-hm-honeydew custom-header header-image header-full-width full-width-content genesis-breadcrumbs-hidden genesis-footer-widgets-hidden elementor-default elementor-template-full-width elementor-kit-3535 elementor-page elementor-page-3507 honeydew-search-overlay-enabled honeydew-footer-social-icons-enabled" itemscope itemtype="https://schema.org/WebPage"><script>
@@ -3800,590 +3801,15 @@ gtag("event", "page_view", {send_to: "GLA"});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4MSXJRK"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="site-container"><ul class="genesis-skip-link"><li><a href="index.html#genesis-content" class="screen-reader-shortcut"> Skip to main content</a></li></ul><nav class="nav-primary"><ul id="nav-primary" class="menu genesis-nav-menu js-superfish"></ul></nav><header class="site-header header-layout-left" itemscope itemtype="https://schema.org/WPHeader"><div class="wrap"><div class="title-area"><p class="site-title" itemprop="headline"><a href="index.html" class="custom-logo-link" rel="home"><img src="/images/logo-baru.jpg" srcset="/images/logo-baru.jpg 1x, images/logo-baru.jpg 1x" alt="Personal Color Analyst Image Studio" class="site-logo-img" width="220" height="70" loading="eager" fetchpriority="high" /></a></p><p class="site-description screen-reader-text" itemprop="description">Find Yourself Through Style</p></div><div class="nav-wrapper"><nav class="nav-right"><ul id="menu-primary-right" class="menu genesis-nav-menu js-superfish"><li id="menu-item-17502" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-17502"><a href="index.html#trend" itemprop="url"><span itemprop="name"><!DOCTYPE html> <html lang="en">     <head>         <meta charset="UTF-8" />         <title>Pill Button</title>         <link rel="preconnect" href="https://fonts.googleapis.com" />         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />         <link             href="https://fonts.googleapis.com/css2?family=Spectral+SC:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&#038;display=swap"             rel="stylesheet"         />         <style>             .pill-button {                 background-color: #eec16e !important;                 border: none !important;                 border-radius: 50px !important;                 border: 2px solid #ffedcd !important;                 padding: 12px 18px !important;                 color: #7d5100 !important;                 font-size: 1.2rem !important;                 font-family: "Spectral SC", sans-serif !important;                 font-weight: 700 !important;                 display: flex !important;                 align-items: center !important;                 cursor: pointer !important;                 box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;             }             .icon-image {                 width: 23px !important;                 height: 23px !important;                 margin-right: 10px !important;             }              .pill-button:focus {                 outline: none !important;             }              .pill-button:hover {                 background-color: #d8aa54 !important;                 color: #5e3d00 !important;                 border: 2px solid #ffd894 !important;                 transition: all 0.6s ease !important;                 -webkit-transition: all 0.6s ease !important;             }              .pill-button:active {                 background-color: #c3a167 !important; /* Slightly darker for active state */             }         </style>         <script>             async function makeApiRequest4() {                 let user = "";                 if (sessionStorage.user) {                     user = sessionStorage.user;                 } else {                     user = crypto.randomUUID();                     sessionStorage.user = user;                 }                 const data = {                     cookie: user,                     slide: -1,                     businessId: 1,                     action: "ACTION_BTN_CLICK",                     page_origin: window.location.pathname,                 };                  fetch("https://sitewrapped-app.vercel.app/api/events", {                     method: "POST",                     body: JSON.stringify(data),                     credentials: "include",                 });             }         </script>     
-<style id="hanum-onepage-styles">
-html {
-  scroll-behavior: smooth;
-}
-section[id], div[id^="service-"] {
-  scroll-margin-top: 85px;
-}
-.site-section {
-  position: relative;
-  box-sizing: border-box;
-}
-
-/* Badges */
-.badge-offline {
-  display: inline-block;
-  background: #fbf3ee;
-  color: #8c5b3f;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  border: 1px solid #ebd6c8;
-}
-.badge-online {
-  display: inline-block;
-  background: #edf6f2;
-  color: #386b52;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 4px 10px;
-  border-radius: 12px;
-  border: 1px solid #c9e5d7;
-  margin-right: 4px;
-}
-
-/* Service Cards */
-.services-overview-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 22px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.service-overview-card {
-  background: #ffffff;
-  border: 1px solid #eae5de;
-  border-radius: 14px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-.service-overview-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-}
-.service-card-media {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  background: #f4efe9;
-}
-.service-card-media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.35s ease;
-}
-.service-overview-card:hover .service-card-media img {
-  transform: scale(1.03);
-}
-.service-card-content {
-  padding: 22px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-.service-card-badge-row {
-  margin-bottom: 10px;
-}
-.service-card-title {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 21px !important;
-  font-weight: 700 !important;
-  line-height: 1.25 !important;
-  color: #1a1a1a !important;
-  margin: 0 0 6px !important;
-}
-.service-card-tagline {
-  font-size: 13px;
-  font-style: italic;
-  line-height: 1.45;
-  color: #635a52;
-  margin: 0 0 12px;
-}
-.service-card-divider {
-  height: 1px;
-  background: #eae5de;
-  margin: 0 0 12px;
-}
-.service-card-deliverables {
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 0 16px !important;
-  flex-grow: 1;
-}
-.service-card-deliverables li {
-  position: relative !important;
-  padding-left: 18px !important;
-  margin-bottom: 8px !important;
-  font-size: 12.5px !important;
-  line-height: 1.45 !important;
-  color: #3b3734 !important;
-}
-.service-card-deliverables li::before {
-  content: "•";
-  position: absolute;
-  left: 3px;
-  top: -1px;
-  color: #8c7f74;
-  font-size: 15px;
-}
-.service-card-footer {
-  margin-top: auto;
-  padding-top: 14px;
-  border-top: 1px dashed #e5dfd6;
-  text-align: center;
-}
-.service-card-meta {
-  font-size: 11.5px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #7a7067;
-  margin-bottom: 4px;
-}
-.service-card-price {
-  font-size: 15.5px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-  line-height: 1.35;
-}
-.service-card-cta-btn {
-  display: inline-block;
-  box-sizing: border-box;
-  padding: 9px 14px;
-  background: #1a1a1a !important;
-  color: #ffffff !important;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  border-radius: 20px;
-  text-decoration: none !important;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-.service-card-cta-btn:hover {
-  background: #383838 !important;
-  color: #ffffff !important;
-  transform: translateY(-1px);
-}
-
-/* Dimension 4-Grid */
-.dimension-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin-bottom: 35px;
-}
-.dimension-item {
-  background: #ffffff;
-  padding: 22px 18px;
-  border-radius: 12px;
-  border: 1px solid #ebe5dc;
-  border-left: 3px solid #1a1a1a;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-}
-.dimension-num {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #8c7f74;
-  text-transform: uppercase;
-  margin-bottom: 4px;
-}
-.dimension-name {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.dimension-desc {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #4f4842;
-  margin: 0;
-}
-
-/* Discoveries 3x3 Grid */
-.discoveries-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 35px;
-}
-.discovery-item-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 10px;
-  padding: 16px 18px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-}
-.discovery-icon {
-  font-size: 16px;
-  color: #8c7f74;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.discovery-text {
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: #2e2a27;
-}
-
-/* Pricing Grid */
-.options-pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-top: 24px;
-}
-.pricing-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 12px;
-  padding: 24px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-}
-.pricing-card.featured {
-  border: 2px solid #1a1a1a;
-  position: relative;
-}
-.pricing-badge {
-  position: absolute;
-  top: -11px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #1a1a1a;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  padding: 3px 12px;
-  border-radius: 10px;
-}
-.pricing-who {
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  color: #7d7269;
-  margin-bottom: 6px;
-}
-.pricing-fee {
-  font-size: 24px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.pricing-desc {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #554e47;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-/* Consultant Grid */
-.consultant-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 50px;
-  align-items: center;
-}
-.consultant-badges-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
-/* Portfolio Grid */
-.portfolio-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-/* Booking Steps */
-.booking-steps-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 35px;
-}
-.booking-step-card {
-  background: #ffffff;
-  border: 1px solid #ebe5dc;
-  border-radius: 12px;
-  padding: 26px 22px;
-  text-align: center;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.03);
-}
-.booking-step-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  color: #ffffff;
-  font-weight: 800;
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-.booking-step-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-}
-.booking-step-desc {
-  font-size: 13px;
-  line-height: 1.55;
-  color: #5c554e;
-  margin: 0;
-}
-
-/* Testimonials & FAQ */
-.testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
-  margin-bottom: 50px;
-}
-.testimonial-card {
-  background: #ffffff;
-  border: 1px solid #ece6df;
-  border-radius: 14px;
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.03);
-}
-.testimonial-quote {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 17px !important;
-  font-style: italic !important;
-  line-height: 1.6 !important;
-  color: #2b2826 !important;
-  margin: 0 0 18px !important;
-  flex-grow: 1;
-}
-.testimonial-client {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 14px;
-  border-top: 1px solid #f0ebe4;
-}
-.testimonial-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: #eae3da;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: #4a423a;
-  font-size: 14px;
-}
-.testimonial-meta-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-.testimonial-meta-service {
-  font-size: 12px;
-  color: #8c7f74;
-}
-
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-.faq-card {
-  background: #fdfbf9;
-  border: 1px solid #eae5de;
-  border-radius: 12px;
-  padding: 22px 20px;
-}
-.faq-q {
-  font-size: 15.5px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 8px;
-  line-height: 1.4;
-}
-.faq-a {
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: #554e47;
-  margin: 0;
-}
-
-/* Footer Section */
-.clean-footer {
-  background: #1a1a1a;
-  color: #f5f2ed;
-  padding: 60px 0 35px;
-  border-top: 1px solid #333333;
-}
-.clean-footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-  gap: 40px;
-  margin-bottom: 45px;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-.clean-footer-col h4 {
-  font-family: "Cormorant Garamond", Georgia, serif !important;
-  font-size: 20px !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  margin: 0 0 16px !important;
-  letter-spacing: 0.5px;
-}
-.clean-footer-col p {
-  font-size: 13.5px;
-  line-height: 1.7;
-  color: #b5afa7;
-  margin: 0 0 14px;
-}
-.clean-footer-links {
-  list-style: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
-.clean-footer-links li {
-  margin-bottom: 10px;
-}
-.clean-footer-links a {
-  color: #b5afa7 !important;
-  text-decoration: none !important;
-  font-size: 13.5px;
-  transition: color 0.2s ease;
-}
-.clean-footer-links a:hover {
-  color: #ffffff !important;
-}
-.clean-footer-bottom {
-  border-top: 1px solid #333333;
-  padding-top: 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12.5px;
-  color: #88827a;
-  max-width: 1180px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-  box-sizing: border-box;
-}
-
-/* Responsive Rules */
-@media (max-width: 1023px) {
-  .services-overview-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-  }
-  .dimension-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .discoveries-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .options-pricing-grid {
-    grid-template-columns: 1fr;
-  }
-  .consultant-grid {
-    grid-template-columns: 1fr;
-    gap: 35px;
-    text-align: center;
-  }
-  .consultant-badges-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .portfolio-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-  .booking-steps-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .testimonials-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-  .faq-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .clean-footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-  }
-}
-
-@media (max-width: 640px) {
-  .services-overview-grid {
-    grid-template-columns: 1fr;
-  }
-  .dimension-grid {
-    grid-template-columns: 1fr;
-  }
-  .discoveries-grid {
-    grid-template-columns: 1fr;
-  }
-  .consultant-badges-grid {
-    grid-template-columns: 1fr;
-  }
-  .portfolio-grid {
-    grid-template-columns: 1fr;
-  }
-  .clean-footer-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-  .clean-footer-bottom {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-}
-</style>
-
-</head>     <body>         <button class="pill-button" onclick="makeApiRequest4()"><svg width="18" height="18" viewBox="0 0 24 24" fill="#7d5100" style="margin-right: 8px; flex-shrink: 0;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>TRENDS</button>     </body> </html></span></a></li>
-</ul></nav></div><div class="mobile-header-actions">
-  <a href="index.html#trend" class="mobile-trends-pill">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="#1a1a1a" style="margin-right: 5px;"><path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/></svg>
-    TRENDS
-  </a>
+<div class="site-container"><ul class="genesis-skip-link"><li><a href="index.html#genesis-content" class="screen-reader-shortcut"> Skip to main content</a></li></ul><nav class="nav-primary"><ul id="nav-primary" class="menu genesis-nav-menu js-superfish"></ul></nav><header class="site-header header-layout-left" itemscope itemtype="https://schema.org/WPHeader"><div class="wrap"><div class="title-area"><p class="site-title" itemprop="headline"><a href="index.html" class="custom-logo-link" rel="home"><img src="/images/logo-baru.jpg" srcset="/images/logo-baru.jpg 1x, images/logo-baru.jpg 1x" alt="Personal Color Analyst Image Studio" class="site-logo-img" width="220" height="70" loading="eager" fetchpriority="high" /></a></p><p class="site-description screen-reader-text" itemprop="description">Find Yourself Through Style</p></div><div class="mobile-header-actions">
+  
   <button class="mobile-hamburger-btn" id="custom-mobile-menu-toggle" aria-label="Menu" onclick="toggleImageStudioMenu(event)">
     <span></span>
     <span></span>
     <span></span>
   </button>
 </div>
-<div class="honeydew-search"><a href="index.html#" class="honeydew-search-overlay-toggle"></a></div></div></header><nav class="nav-secondary" aria-label="Secondary" itemscope itemtype="https://schema.org/SiteNavigationElement"><div class="wrap"><ul id="menu-2025-new-menu" class="menu genesis-nav-menu menu-secondary js-superfish">
+</div></header><nav class="nav-secondary" aria-label="Secondary" itemscope itemtype="https://schema.org/SiteNavigationElement"><div class="wrap"><ul id="menu-2025-new-menu" class="menu genesis-nav-menu menu-secondary js-superfish">
 <li class="menu-item"><a href="#services"><span itemprop="name">Our Services</span></a></li>
 <li class="menu-item"><a href="#discover"><span itemprop="name">What You Discover</span></a></li>
 <li class="menu-item"><a href="#consultant"><span itemprop="name">Meet Consultant</span></a></li>
@@ -5106,7 +4532,7 @@ document.addEventListener('keydown', function(e) {
 			</div>
 		</footer>
 	</div> <!-- end site-inner -->
-<div id="search-overlay" class="honeydew-search-overlay"><div class="wrap"><h2>Search</h2><a href="index.html#" class="honeydew-close-overlay">Close (esc)</a><form class="search-form" method="get" action="index.html" role="search" itemprop="potentialAction" itemscope itemtype="https://schema.org/SearchAction"><label class="search-form-label screen-reader-text" for="searchform-1">Type + hit enter</label><input class="search-form-input" type="search" name="s" id="searchform-1" placeholder="Type + hit enter" itemprop="query-input"><input class="search-form-submit" type="submit" value="Search"><meta content="index.html?s={s}" itemprop="target"></form></div></div><div class="footercreds"><h6>Copyright &copy; 2026 &middot; Hanum Personal Image Studio. All rights reserved.</h6><li class="honeydew-social-icons"><section id="simple-social-icons-3" class="widget simple-social-icons"><div class="widget-wrap"><ul class="aligncenter"><li class="ssi-email"><a href="cdn-cgi/l/email-protection#fddbdecdc4cac6dbdecccdcfc69c8edbdecccdc9c6dbdecccdc8c692dbdecccccdc69a9c8f99dbdecccdccc6dbdecccccdc6dbdecdcbc9c6dbdecccdcec6dbdecccdc4c6dbdecdc4cac694dbdecccdc5c6d3dbdecdc4c4c6dbdeccccccc6dbdecccdc4c6"><svg role="img" class="social-email" aria-labelledby="social-email-3"><title id="social-email-3">Email</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-email"></use></svg></a></li><li class="ssi-instagram"><a href="https://www.instagram.com/ourfashiongarden/" ><svg role="img" class="social-instagram" aria-labelledby="social-instagram-3"><title id="social-instagram-3">Instagram</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-instagram"></use></svg></a></li><li class="ssi-pinterest"><a href="https://www.pinterest.com.mx/ourfashiongarden/_created/" ><svg role="img" class="social-pinterest" aria-labelledby="social-pinterest-3"><title id="social-pinterest-3">Pinterest</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-pinterest"></use></svg></a></li><li class="ssi-youtube"><a href="https://www.youtube.com/channel/UCEuLjx6HZoZ-Wej1TzuJPnQ" ><svg role="img" class="social-youtube" aria-labelledby="social-youtube-3"><title id="social-youtube-3">YouTube</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-youtube"></use></svg></a></li></ul></div></section>
+<div class="footercreds"><h6>Copyright &copy; 2026 &middot; Hanum Personal Image Studio. All rights reserved.</h6><li class="honeydew-social-icons"><section id="simple-social-icons-3" class="widget simple-social-icons"><div class="widget-wrap"><ul class="aligncenter"><li class="ssi-email"><a href="cdn-cgi/l/email-protection#fddbdecdc4cac6dbdecccdcfc69c8edbdecccdc9c6dbdecccdc8c692dbdecccccdc69a9c8f99dbdecccdccc6dbdecccccdc6dbdecdcbc9c6dbdecccdcec6dbdecccdc4c6dbdecdc4cac694dbdecccdc5c6d3dbdecdc4c4c6dbdeccccccc6dbdecccdc4c6"><svg role="img" class="social-email" aria-labelledby="social-email-3"><title id="social-email-3">Email</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-email"></use></svg></a></li><li class="ssi-instagram"><a href="https://www.instagram.com/ourfashiongarden/" ><svg role="img" class="social-instagram" aria-labelledby="social-instagram-3"><title id="social-instagram-3">Instagram</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-instagram"></use></svg></a></li><li class="ssi-pinterest"><a href="https://www.pinterest.com.mx/ourfashiongarden/_created/" ><svg role="img" class="social-pinterest" aria-labelledby="social-pinterest-3"><title id="social-pinterest-3">Pinterest</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-pinterest"></use></svg></a></li><li class="ssi-youtube"><a href="https://www.youtube.com/channel/UCEuLjx6HZoZ-Wej1TzuJPnQ" ><svg role="img" class="social-youtube" aria-labelledby="social-youtube-3"><title id="social-youtube-3">YouTube</title><use xlink:href="wp-content/plugins/simple-social-icons/symbol-defs.svg#social-youtube"></use></svg></a></li></ul></div></section>
 </li><script data-cfasync="false" src="cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="speculationrules">
 {"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/hm-honeydew/*","/wp-content/themes/genesis/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
 </script>
