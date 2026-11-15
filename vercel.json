@@ -1,6 +1,16 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/wp-content/uploads/elementor/css/(.*)",
+      "destination": "/css/$1"
+    },
+    {
+      "source": "/wp-content/uploads/(.*)",
+      "destination": "/images/pixel.png"
+    }
+  ],
   "headers": [
     {
       "source": "/images/(.*)",
@@ -16,7 +26,7 @@
       ]
     },
     {
-      "source": "/(.*)\.(png|jpg|jpeg|gif|svg|ico|css|js)",
+      "source": "/(.*)\\.(png|jpg|jpeg|gif|svg|ico|css|js)",
       "headers": [
         {
           "key": "Cache-Control",
