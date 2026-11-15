@@ -5178,7 +5178,7 @@ button.slick-prev.slick-arrow {
   .elementor-element-03aa0de,
   .elementor-element-03aa0de:not(.elementor-motion-effects-element-type-background),
   .hero-section {
-    background-image: url("../../../images/hero-mobile-new.png") !important;
+    background-image: url("/images/hero-mobile-new.png") !important;
     background-size: cover !important;
     background-position: right top !important;
     background-repeat: no-repeat !important;
@@ -5376,7 +5376,7 @@ button.slick-prev.slick-arrow {
     .elementor-element-03aa0de,
     .hero-section {
       min-height: 740px !important;
-      background-image: url("../../../images/hero-mobile-new.png") !important;
+      background-image: url("/images/hero-mobile-new.png") !important;
       background-size: cover !important;
       background-position: right top !important;
       background-repeat: no-repeat !important;
@@ -5487,7 +5487,10 @@ button.slick-prev.slick-arrow {
     .elementor-element-03aa0de,
     .hero-section {
       min-height: 760px !important;
+      background-image: url("/images/hero-mobile-new.png") !important;
+      background-size: cover !important;
       background-position: right top !important;
+      background-repeat: no-repeat !important;
       padding: 240px 28px 36px !important;
       justify-content: flex-end !important;
     }
@@ -5620,7 +5623,7 @@ button.slick-prev.slick-arrow {
   .elementor-3507 .elementor-element.elementor-element-03aa0de > .elementor-motion-effects-container > .elementor-motion-effects-layer,
   .elementor-element-03aa0de,
   .hero-section {
-    background-image: url("images/hero.png") !important;
+    background-image: url("/images/hero.png") !important;
     background-position: right top !important;
     background-size: cover !important;
     background-repeat: no-repeat !important;
