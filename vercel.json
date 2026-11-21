@@ -1,6 +1,11 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "{data/**,galeri.json,mitra.json}"
+    }
+  },
   "rewrites": [
     {
       "source": "/wp-content/uploads/elementor/css/(.*)",
@@ -12,6 +17,19 @@
     }
   ],
   "headers": [
+    {
+      "source": "/(.*)\\.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        }
+      ]
+    },
     {
       "source": "/images/(.*)",
       "headers": [

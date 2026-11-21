@@ -1,6 +1,7 @@
 const {
   verifyToken,
   getBearerToken,
+  getJson,
   readLocalJson,
   commitFileToGitHub,
   deleteFileFromGitHub
@@ -18,7 +19,7 @@ module.exports = async function handler(req, res) {
   // GET: Fetch list of gallery photos
   if (req.method === 'GET') {
     try {
-      const items = readLocalJson('galeri.json', [
+      const items = await getJson('galeri.json', [
         { id: '1', src: '/galeri/1.jpg' },
         { id: '2', src: '/galeri/2.jpg' },
         { id: '3', src: '/galeri/3.jpg' },
@@ -76,8 +77,8 @@ module.exports = async function handler(req, res) {
       // 1. Commit/save image file to repo
       await commitFileToGitHub(repoFilePath, base64Data, `feat(galeri): tambah foto ${safeFilename}`);
 
-      // 2. Update galeri.json
-      const items = readLocalJson('galeri.json', []);
+      // 2. Update galeri.json (via GitHub or local)
+      const items = await getJson('galeri.json', []);
       const newItem = {
         id: String(timestamp),
         src: publicSrc,
@@ -120,7 +121,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ success: false, message: 'ID atau src foto wajib diisi untuk menghapus.' });
       }
 
-      const items = readLocalJson('galeri.json', []);
+      const items = await getJson('galeri.json', []);
       const targetItem = items.find(item => item.id === String(id) || item.src === src);
 
       if (!targetItem) {

@@ -1,6 +1,7 @@
 const {
   verifyToken,
   getBearerToken,
+  getJson,
   readLocalJson,
   commitFileToGitHub,
   deleteFileFromGitHub
@@ -20,7 +21,7 @@ module.exports = async function handler(req, res) {
 
   // GET: Public fetch of partner logos
   if (req.method === 'GET') {
-    const items = readLocalJson(MITRA_JSON_PATH, []);
+    const items = await getJson(MITRA_JSON_PATH, []);
     return res.status(200).json({ success: true, items });
   }
 
@@ -41,7 +42,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ success: false, message: 'Nama mitra / brand wajib diisi.' });
       }
 
-      const items = readLocalJson(MITRA_JSON_PATH, []);
+      const items = await getJson(MITRA_JSON_PATH, []);
       let targetItem = id ? items.find(i => String(i.id) === String(id)) : null;
 
       let publicSrc = targetItem ? targetItem.src : '';
@@ -124,7 +125,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ success: false, message: 'ID mitra wajib disertakan.' });
       }
 
-      const items = readLocalJson(MITRA_JSON_PATH, []);
+      const items = await getJson(MITRA_JSON_PATH, []);
       const targetIndex = items.findIndex(i => String(i.id) === String(id));
       if (targetIndex === -1) {
         return res.status(404).json({ success: false, message: 'Data mitra tidak ditemukan.' });

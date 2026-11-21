@@ -3,7 +3,7 @@ const {
   hashPassword,
   verifyToken,
   getBearerToken,
-  readLocalJson,
+  getJson,
   commitFileToGitHub
 } = require('./_helper');
 
@@ -38,11 +38,11 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ success: false, message: 'Password baru minimal harus 6 karakter.' });
     }
 
-    // Read current admin credentials
-    const adminData = readLocalJson('data/admin.json', {
+    // Read current admin credentials (via GitHub or local)
+    const adminData = await getJson('data/admin.json', {
       email: session.email || 'admin@imagestudio.id',
-      salt: 'f277faa74f827014094727eacb7b5ae9',
-      passwordHash: 'd73e9c9eca2f3ce3aefac098e6cdea766a9760f7d8a3343f2713a06f26a749ff7676ab64f4cf99efa14b97f3a8c9c2c4facb2fdacb68489ce0569b2f823f2fa7'
+      salt: '9f636547f533f8000a01b52a181bf55c',
+      passwordHash: '7c34a12836b8ac3dd3cc31ba0fa9711cf1a7bc9222a7874420a553dbea12966ed52b25aee4b6251bb8dd4a0cfd7afbb2ec2d400c0ca7c03d76adcc8a873d6051'
     });
 
     // Check old password

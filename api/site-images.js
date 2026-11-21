@@ -1,10 +1,86 @@
 const {
   verifyToken,
   getBearerToken,
+  getJson,
   readLocalJson,
   commitFileToGitHub,
   deleteFileFromGitHub
 } = require('./_helper');
+
+const DEFAULT_SLOTS = {
+  logo: {
+    key: 'logo',
+    name: 'Logo Utama Studio',
+    section: 'Header & Footer Website',
+    src: '/images/logo-baru.jpg',
+    defaultSrc: '/images/logo-baru.jpg',
+    aspect: 'Landscape horizontal (± 300x80px PNG/JPG)',
+    previewFit: 'contain'
+  },
+  hero_desktop: {
+    key: 'hero_desktop',
+    name: 'Foto Banner Hero (Desktop)',
+    section: 'Banner Utama Layar Komputer / Laptop',
+    src: '/images/hero.png',
+    defaultSrc: '/images/hero.png',
+    aspect: 'Landscape lebar (± 1920x900px)',
+    previewFit: 'cover'
+  },
+  hero_mobile: {
+    key: 'hero_mobile',
+    name: 'Foto Banner Hero (Mobile)',
+    section: 'Banner Utama Layar Smartphone / HP',
+    src: '/images/hero-mobile-new.png',
+    defaultSrc: '/images/hero-mobile-new.png',
+    aspect: 'Portrait vertikal (± 900x1200px)',
+    previewFit: 'cover'
+  },
+  consultant_photo: {
+    key: 'consultant_photo',
+    name: 'Foto Profil Konsultan (Nabilah Hanum)',
+    section: 'Section 04: Meet Your Consultant',
+    src: '/images/hero-mobile-new.png',
+    defaultSrc: '/images/hero-mobile-new.png',
+    aspect: 'Portrait vertikal (± 600x800px)',
+    previewFit: 'cover'
+  },
+  service_color: {
+    key: 'service_color',
+    name: 'Foto Layanan 01: Personal Color Analysis',
+    section: 'Section 01: Our Services (Kartu 1)',
+    src: '/images/personalcolor.jpeg',
+    defaultSrc: '/images/personalcolor.jpeg',
+    aspect: 'Portrait rasio 4:5 (± 800x1000px)',
+    previewFit: 'cover'
+  },
+  service_face: {
+    key: 'service_face',
+    name: 'Foto Layanan 02: Face Analysis & Makeup',
+    section: 'Section 01: Our Services (Kartu 2)',
+    src: '/images/faceanalys.jpeg',
+    defaultSrc: '/images/faceanalys.jpeg',
+    aspect: 'Portrait rasio 4:5 (± 800x1000px)',
+    previewFit: 'cover'
+  },
+  service_fashion: {
+    key: 'service_fashion',
+    name: 'Foto Layanan 03: Body Shape & Fashion Style',
+    section: 'Section 01: Our Services (Kartu 3)',
+    src: '/images/fashionanalys.jpeg',
+    defaultSrc: '/images/fashionanalys.jpeg',
+    aspect: 'Portrait rasio 4:5 (± 800x1000px)',
+    previewFit: 'cover'
+  },
+  service_wardrobe: {
+    key: 'service_wardrobe',
+    name: 'Foto Layanan 04: Discovery Wardrobe Consultation',
+    section: 'Section 01: Our Services (Kartu 4)',
+    src: '/images/wardrobe.jpeg',
+    defaultSrc: '/images/wardrobe.jpeg',
+    aspect: 'Portrait rasio 4:5 (± 800x1000px)',
+    previewFit: 'cover'
+  }
+};
 
 module.exports = async function handler(req, res) {
   // CORS
@@ -20,7 +96,8 @@ module.exports = async function handler(req, res) {
 
   // GET: Public fetch of active site image slots
   if (req.method === 'GET') {
-    const slots = readLocalJson(SITE_IMAGES_PATH, {});
+    let slots = await getJson(SITE_IMAGES_PATH, DEFAULT_SLOTS);
+    if (!slots || Object.keys(slots).length === 0) slots = { ...DEFAULT_SLOTS };
     return res.status(200).json({ success: true, slots });
   }
 
@@ -36,7 +113,9 @@ module.exports = async function handler(req, res) {
       const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
       const { key, action, base64Data } = body;
 
-      const slots = readLocalJson(SITE_IMAGES_PATH, {});
+      let slots = await getJson(SITE_IMAGES_PATH, DEFAULT_SLOTS);
+      if (!slots || Object.keys(slots).length === 0) slots = { ...DEFAULT_SLOTS };
+
       if (!key || !slots[key]) {
         return res.status(400).json({ success: false, message: `Slot foto "${key}" tidak ditemukan.` });
       }

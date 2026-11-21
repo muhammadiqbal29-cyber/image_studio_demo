@@ -66,17 +66,70 @@ function getBearerToken(req) {
   return null;
 }
 
-// Read JSON file (fallback to disk if available)
-function readLocalJson(relPath, fallback) {
-  try {
-    const fullPath = path.resolve(process.cwd(), relPath);
-    if (fs.existsSync(fullPath)) {
-      const data = fs.readFileSync(fullPath, 'utf8');
-      return JSON.parse(data);
+// Read JSON file: Fetch latest from GitHub if GITHUB_TOKEN is available, fallback to local disk
+async function getJson(relPath, fallback) {
+  if (GITHUB_TOKEN) {
+    try {
+      const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${relPath}?ref=${REPO_BRANCH}`;
+      const res = await fetch(url, {
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github+json',
+          'User-Agent': 'ImageStudio-CMS'
+        }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.content) {
+          const utf8Str = Buffer.from(data.content, 'base64').toString('utf8');
+          return JSON.parse(utf8Str);
+        }
+      }
+    } catch (e) {
+      console.warn(`GitHub API getJson failed for ${relPath}:`, e.message);
     }
-  } catch (e) {
-    console.error(`Error reading ${relPath}:`, e.message);
   }
+
+  // Local filesystem candidate paths
+  const candidatePaths = [
+    path.resolve(process.cwd(), relPath),
+    path.resolve(__dirname, '..', relPath),
+    path.resolve(__dirname, relPath)
+  ];
+
+  for (const fullPath of candidatePaths) {
+    try {
+      if (fs.existsSync(fullPath)) {
+        const content = fs.readFileSync(fullPath, 'utf8');
+        return JSON.parse(content);
+      }
+    } catch (e) {
+      // try next candidate
+    }
+  }
+
+  return fallback;
+}
+
+// Synchronous local reader for quick non-async access
+function readLocalJson(relPath, fallback) {
+  const candidatePaths = [
+    path.resolve(process.cwd(), relPath),
+    path.resolve(__dirname, '..', relPath),
+    path.resolve(__dirname, relPath)
+  ];
+
+  for (const fullPath of candidatePaths) {
+    try {
+      if (fs.existsSync(fullPath)) {
+        const content = fs.readFileSync(fullPath, 'utf8');
+        return JSON.parse(content);
+      }
+    } catch (e) {
+      // try next
+    }
+  }
+
   return fallback;
 }
 
@@ -195,6 +248,7 @@ module.exports = {
   createToken,
   verifyToken,
   getBearerToken,
+  getJson,
   readLocalJson,
   commitFileToGitHub,
   deleteFileFromGitHub,
