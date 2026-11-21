@@ -39,7 +39,7 @@
     "key": "service_color",
     "name": "Foto Layanan 01: Personal Color Analysis",
     "section": "Section 01: Our Services (Kartu 1)",
-    "src": "/images/site-service_color.jpg?v=1795275647337",
+    "src": "/images/personalcolor.jpeg",
     "defaultSrc": "/images/personalcolor.jpeg",
     "aspect": "Portrait rasio 4:5 (± 800x1000px)",
     "previewFit": "cover"
