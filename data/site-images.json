@@ -3,7 +3,7 @@
     "key": "logo",
     "name": "Logo Utama Studio",
     "section": "Header & Footer Website",
-    "src": "/images/logo-baru.jpg",
+    "src": "/images/site-logo.jpg?v=1795275964721",
     "defaultSrc": "/images/logo-baru.jpg",
     "aspect": "Landscape horizontal (± 300x80px PNG/JPG)",
     "previewFit": "contain"
