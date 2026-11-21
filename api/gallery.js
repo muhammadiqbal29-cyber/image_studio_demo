@@ -59,6 +59,15 @@ module.exports = async function handler(req, res) {
         base64Data = base64Data.split(';base64,')[1];
       }
 
+      // Check binary payload size (max 4.5 MB to comply with Vercel serverless limit)
+      const approxByteLength = Buffer.from(base64Data, 'base64').length;
+      if (approxByteLength > 4.5 * 1024 * 1024) {
+        return res.status(400).json({
+          success: false,
+          message: 'Ukuran foto melebihi batas maksimal server (4.5 MB). Silakan gunakan foto yang lebih kecil atau tunggu kompresi otomatis.'
+        });
+      }
+
       const timestamp = Date.now();
       const safeFilename = `foto-${timestamp}.${ext}`;
       const repoFilePath = `galeri/${safeFilename}`;
