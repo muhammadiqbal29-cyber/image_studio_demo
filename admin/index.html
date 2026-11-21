@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal &bull; Hanum Personal Image Studio</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-cyan: #00a8f0;
+      --brand-red: #f72428;
+      --brand-yellow: #fdd112;
+      --brand-black: #111111;
+      --bg-cream: #faf7f2;
+      --border-color: #ebe5dc;
+      --text-dark: #1a1a1a;
+      --text-muted: #665e56;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 20px 45px rgba(0,0,0,0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-cream);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Tricolor Brand Line */
+    .top-brand-stripe {
+      height: 4px;
+      width: 100%;
+      background: linear-gradient(to right, #00a8f0 0% 33.3%, #f72428 33.3% 66.6%, #fdd112 66.6% 100%);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    /* Common Button Styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 30px;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .btn-primary {
+      background: var(--brand-black);
+      color: #ffffff;
+      border-color: var(--brand-black);
+    }
+    .btn-primary:hover {
+      background: #2a2a2a;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .btn-danger {
+      background: #fff0f0;
+      color: #d32f2f;
+      border-color: #ffcdd2;
+    }
+    .btn-danger:hover {
+      background: #d32f2f;
+      color: #ffffff;
+      border-color: #d32f2f;
+    }
+    .btn-outline {
+      background: #ffffff;
+      color: var(--text-dark);
+      border-color: var(--border-color);
+    }
+    .btn-outline:hover {
+      background: #f7f3ee;
+      border-color: #d8cebe;
+    }
+
+    /* Alerts */
+    .alert {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+      line-height: 1.5;
+      margin-bottom: 18px;
+      display: none;
+    }
+    .alert-error {
+      background: #fff0f0;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+    .alert-success {
+      background: #f0faf3;
+      color: #1b5e20;
+      border: 1px solid #c8e6c9;
+    }
+
+    /* LOGIN VIEW */
+    #login-view {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+      padding: 40px 32px;
+      text-align: center;
+    }
+    .login-logo {
+      height: 52px;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+    .login-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--brand-black);
+      margin-bottom: 6px;
+    }
+    .login-subtitle {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 14px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-color);
+      background: #fdfcfb;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      font-family: inherit;
+    }
+    .form-input:focus {
+      border-color: var(--brand-cyan);
+      box-shadow: 0 0 0 3px rgba(0, 168, 240, 0.12);
+      background: #ffffff;
+    }
+
+    /* DASHBOARD VIEW */
+    #dashboard-view {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+    }
+    .dash-header {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding: 14px 24px;
+      position: sticky;
+      top: 4px;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+    }
+    .dash-header-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-dark);
+    }
+    .dash-logo {
+      height: 38px;
+      object-fit: contain;
+    }
+    .dash-brand-text {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .dash-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* Main Dashboard Layout */
+    .dash-main {
+      max-width: 1140px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+      flex: 1;
+    }
+    .page-kicker {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--brand-red);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .page-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--brand-black);
+      margin-bottom: 24px;
+    }
+
+    /* Upload Box */
+    .upload-box {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1.5px dashed #d8cebe;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .upload-box:hover, .upload-box.dragover {
+      border-color: var(--brand-cyan);
+      background: #f7fbfe;
+      transform: translateY(-2px);
+    }
+    .upload-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #f0f7fb;
+      color: var(--brand-cyan);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .upload-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .upload-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    #file-input {
+      display: none;
+    }
+
+    /* Preview Section */
+    .preview-card {
+      display: none;
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 20px;
+      margin-bottom: 36px;
+      box-shadow: var(--shadow-sm);
+    }
+    .preview-inner {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .preview-img {
+      width: 140px;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+    .preview-info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .preview-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    /* Gallery Grid in Admin */
+    .gallery-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .gallery-count-badge {
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef2f5;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .admin-card {
+      background: #ffffff;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .admin-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-3px);
+    }
+    .admin-card-img-wrap {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: #f4efe8;
+      position: relative;
+    }
+    .admin-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .admin-card-actions {
+      padding: 12px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f2ede6;
+    }
+    .admin-card-num {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* MODAL GANTI PASSWORD */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 15, 15, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      max-width: 440px;
+      width: 100%;
+      padding: 32px 28px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #f0ebe4;
+      color: var(--text-dark);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close-btn:hover {
+      background: #e2dad0;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--brand-black);
+      color: #ffffff;
+      padding: 14px 22px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 3000;
+      animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes toastSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 640px) {
+      .dash-header-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .dash-actions {
+        justify-content: space-between;
+      }
+      .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-brand-stripe"></div>
+
+  <!-- VIEW 1: LOGIN -->
+  <section id="login-view">
+    <div class="login-card">
+      <img src="/images/logo-baru.jpg" alt="Hanum Personal Image Studio" class="login-logo">
+      <h1 class="login-title">Portal Admin Studio</h1>
+      <p class="login-subtitle">Masuk untuk mengelola foto galeri & dokumentasi</p>
+
+      <div id="login-alert" class="alert alert-error"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Admin</label>
+          <input type="email" id="login-email" class="form-input" placeholder="admin@imagestudio.id" required autocomplete="username">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-input" placeholder="Masukkan password" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="login-btn" class="btn btn-primary" style="width: 100%; height: 46px; margin-top: 10px;">
+          Masuk ke Dashboard
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- VIEW 2: DASHBOARD -->
+  <div id="dashboard-view">
+    <header class="dash-header">
+      <div class="dash-header-inner">
+        <a href="/" target="_blank" class="dash-brand">
+          <img src="/images/logo-baru.jpg" alt="Logo" class="dash-logo">
+          <div class="dash-brand-text">Hanum Image Studio <span style="font-size: 13px; font-weight: 400; color: #888;">&bull; Admin</span></div>
+        </a>
+
+        <div class="dash-actions">
+          <button type="button" class="btn btn-outline" onclick="openChangePasswordModal()">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Ganti Password
+          </button>
+          <a href="/#galeri" target="_blank" class="btn btn-outline">
+            Lihat Web Live &nearr;
+          </a>
+          <button type="button" class="btn btn-danger" onclick="logout()">
+            Keluar
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="dash-main">
+      <span class="page-kicker">Manajemen Konten</span>
+      <h2 class="page-title">Galeri Foto Studio</h2>
+
+      <!-- Dropzone Upload Box -->
+      <div class="upload-box" id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp">
+        <div class="upload-icon">&uarr;</div>
+        <h3 class="upload-title">Klik atau Tarik Foto ke Sini untuk Menambah</h3>
+        <p class="upload-desc">Mendukung format JPG, PNG, WEBP (foto otomatis berasio 4:5 seragam di web)</p>
+      </div>
+
+      <!-- Preview Selected File -->
+      <div class="preview-card" id="preview-card">
+        <div class="preview-inner">
+          <img id="preview-img" src="" alt="Preview" class="preview-img">
+          <div class="preview-info">
+            <h4 id="preview-filename" style="font-size: 15px; font-weight: 700; margin-bottom: 4px;"></h4>
+            <p id="preview-size" style="font-size: 13px; color: var(--text-muted);"></p>
+            <div class="preview-actions">
+              <button type="button" id="confirm-upload-btn" class="btn btn-primary" onclick="uploadSelectedPhoto()">
+                Simpan ke Galeri
+              </button>
+              <button type="button" class="btn btn-outline" onclick="cancelPreview()">
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Gallery List -->
+      <div class="gallery-section-head">
+        <h3 style="font-size: 18px; font-weight: 700;">Daftar Foto Saat Ini</h3>
+        <span id="gallery-count" class="gallery-count-badge">Memuat...</span>
+      </div>
+
+      <div class="admin-grid" id="admin-gallery-grid">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL GANTI PASSWORD -->
+  <div class="modal-overlay" id="password-modal">
+    <div class="modal-card">
+      <button type="button" class="modal-close-btn" onclick="closeChangePasswordModal()">&times;</button>
+      <h3 style="font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; font-weight: 700; margin-bottom: 6px;">Ganti Password Admin</h3>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">Masukkan password lama dan password baru Anda.</p>
+
+      <div id="password-alert" class="alert"></div>
+
+      <form id="password-form" onsubmit="handlePasswordChange(event)">
+        <div class="form-group">
+          <label class="form-label" for="old-password">Password Saat Ini</label>
+          <input type="password" id="old-password" class="form-input" required autocomplete="current-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="new-password">Password Baru</label>
+          <input type="password" id="new-password" class="form-input" required minlength="6" placeholder="Minimal 6 karakter" autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="confirm-password">Konfirmasi Password Baru</label>
+          <input type="password" id="confirm-password" class="form-input" required minlength="6" placeholder="Ulangi password baru" autocomplete="new-password">
+        </div>
+
+        <button type="submit" id="save-password-btn" class="btn btn-primary" style="width: 100%; height: 44px; margin-top: 10px;">
+          Simpan Password Baru
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast">
+    <span id="toast-msg"></span>
+  </div>
+
+  <script>
+    let authToken = localStorage.getItem('image_studio_admin_token') || '';
+    let selectedBase64 = '';
+    let selectedFilename = '';
+
+    const loginView = document.getElementById('login-view');
+    const dashboardView = document.getElementById('dashboard-view');
+    const loginAlert = document.getElementById('login-alert');
+    const loginBtn = document.getElementById('login-btn');
+    const fileInput = document.getElementById('file-input');
+    const dropZone = document.getElementById('drop-zone');
+    const previewCard = document.getElementById('preview-card');
+    const previewImg = document.getElementById('preview-img');
+    const previewFilename = document.getElementById('preview-filename');
+    const previewSize = document.getElementById('preview-size');
+    const galleryGrid = document.getElementById('admin-gallery-grid');
+    const galleryCount = document.getElementById('gallery-count');
+    const passwordModal = document.getElementById('password-modal');
+    const passwordAlert = document.getElementById('password-alert');
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-msg');
+
+    // Show Toast
+    function showToast(msg) {
+      toastMsg.textContent = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+
+    // Check Auth on load
+    async function checkAuth() {
+      if (!authToken) {
+        showLoginView();
+        return;
+      }
+      try {
+        const res = await fetch('/api/auth', {
+          headers: { 'Authorization': 'Bearer ' + authToken }
+        });
+        const data = await res.json();
+        if (data.authenticated) {
+          showDashboardView();
+          loadGallery();
+        } else {
+          showLoginView();
+        }
+      } catch (e) {
+        showLoginView();
+      }
+    }
+
+    function showLoginView() {
+      loginView.style.display = 'flex';
+      dashboardView.style.display = 'none';
+    }
+
+    function showDashboardView() {
+      loginView.style.display = 'none';
+      dashboardView.style.display = 'flex';
+    }
+
+    // Login Form Handler
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginAlert.style.display = 'none';
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Memverifikasi...';
+
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+        const data = await res.json();
+
+        if (data.success && data.token) {
+          authToken = data.token;
+          localStorage.setItem('image_studio_admin_token', authToken);
+          showDashboardView();
+          loadGallery();
+          showToast('Selamat datang di Admin Studio!');
+        } else {
+          loginAlert.textContent = data.message || 'Login gagal. Periksa kembali email dan password Anda.';
+          loginAlert.style.display = 'block';
+        }
+      } catch (err) {
+        loginAlert.textContent = 'Terjadi kesalahan jaringan atau server.';
+        loginAlert.style.display = 'block';
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Masuk ke Dashboard';
+      }
+    });
+
+    // Logout
+    function logout() {
+      authToken = '';
+      localStorage.removeItem('image_studio_admin_token');
+      showLoginView();
+      showToast('Anda telah keluar.');
+    }
+
+    // Load Gallery
+    async function loadGallery() {
+      galleryGrid.innerHTML = '<p style="color: #888; grid-column: 1 / -1; padding: 20px 0;">Memuat galeri...</p>';
+      try {
+        const res = await fetch('/api/gallery');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.items)) {
+          renderGallery(data.items);
+        } else {
+          galleryGrid.innerHTML = '<p style="color: #c62828;">Gagal memuat daftar foto.</p>';
+        }
+      } catch (e) {
+        galleryGrid.innerHTML = '<p style="color: #c62828;">Koneksi error saat memuat galeri.</p>';
+      }
+    }
+
+    function renderGallery(items) {
+      galleryCount.textContent = `${items.length} Foto Aktif`;
+      if (items.length === 0) {
+        galleryGrid.innerHTML = '<p style="color: #888; grid-column: 1 / -1; padding: 30px 0; text-align: center;">Belum ada foto di galeri. Silakan upload foto pertama Anda!</p>';
+        return;
+      }
+
+      galleryGrid.innerHTML = items.map((item, idx) => `
+        <div class="admin-card">
+          <div class="admin-card-img-wrap">
+            <img src="${item.src}" alt="Foto Galeri" class="admin-card-img" loading="lazy">
+          </div>
+          <div class="admin-card-actions">
+            <span class="admin-card-num">#${idx + 1}</span>
+            <button type="button" class="btn btn-danger" style="padding: 5px 12px; font-size: 12px;" onclick="deletePhoto('${item.id}', '${item.src}')">
+              Hapus
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Drag and Drop & File Selection
+    dropZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('dragover');
+    });
+    dropZone.addEventListener('dragleave', () => {
+      dropZone.classList.remove('dragover');
+    });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        handleFile(e.target.files[0]);
+      }
+    });
+
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Mohon pilih berkas gambar (JPG, PNG, atau WEBP).');
+        return;
+      }
+      if (file.size > 8 * 1024 * 1024) {
+        alert('Ukuran berkas maksimal 8 MB.');
+        return;
+      }
+
+      selectedFilename = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        selectedBase64 = e.target.result;
+        previewImg.src = selectedBase64;
+        previewFilename.textContent = file.name;
+        previewSize.textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+        previewCard.style.display = 'block';
+        previewCard.scrollIntoView({ behavior: 'smooth' });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function cancelPreview() {
+      selectedBase64 = '';
+      selectedFilename = '';
+      fileInput.value = '';
+      previewCard.style.display = 'none';
+    }
+
+    // Upload Selected Photo
+    async function uploadSelectedPhoto() {
+      if (!selectedBase64) return;
+      const btn = document.getElementById('confirm-upload-btn');
+      btn.disabled = true;
+      btn.textContent = 'Menyimpan...';
+
+      try {
+        const res = await fetch('/api/gallery', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
+          body: JSON.stringify({
+            base64Data: selectedBase64,
+            filename: selectedFilename
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast('Foto baru berhasil ditambahkan ke galeri!');
+          cancelPreview();
+          if (data.items) {
+            renderGallery(data.items);
+          } else {
+            loadGallery();
+          }
+        } else {
+          alert(data.message || 'Gagal mengupload foto.');
+        }
+      } catch (e) {
+        alert('Terjadi kesalahan koneksi saat upload.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Simpan ke Galeri';
+      }
+    }
+
+    // Delete Photo
+    async function deletePhoto(id, src) {
+      if (!confirm('Apakah Anda yakin ingin menghapus foto ini dari galeri?')) {
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/gallery', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
+          body: JSON.stringify({ id, src })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast('Foto berhasil dihapus.');
+          if (data.items) {
+            renderGallery(data.items);
+          } else {
+            loadGallery();
+          }
+        } else {
+          alert(data.message || 'Gagal menghapus foto.');
+        }
+      } catch (e) {
+        alert('Terjadi kesalahan koneksi saat menghapus.');
+      }
+    }
+
+    // Change Password Modal
+    function openChangePasswordModal() {
+      passwordAlert.style.display = 'none';
+      document.getElementById('password-form').reset();
+      passwordModal.classList.add('active');
+    }
+
+    function closeChangePasswordModal() {
+      passwordModal.classList.remove('active');
+    }
+
+    async function handlePasswordChange(e) {
+      e.preventDefault();
+      passwordAlert.style.display = 'none';
+
+      const oldPassword = document.getElementById('old-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const btn = document.getElementById('save-password-btn');
+
+      if (newPassword !== confirmPassword) {
+        passwordAlert.className = 'alert alert-error';
+        passwordAlert.textContent = 'Konfirmasi password baru tidak cocok.';
+        passwordAlert.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Memperbarui...';
+
+      try {
+        const res = await fetch('/api/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+          },
+          body: JSON.stringify({ oldPassword, newPassword })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          passwordAlert.className = 'alert alert-success';
+          passwordAlert.textContent = data.message || 'Password berhasil diubah!';
+          passwordAlert.style.display = 'block';
+          showToast('Password admin berhasil diperbarui.');
+          setTimeout(() => {
+            closeChangePasswordModal();
+          }, 1800);
+        } else {
+          passwordAlert.className = 'alert alert-error';
+          passwordAlert.textContent = data.message || 'Gagal memperbarui password.';
+          passwordAlert.style.display = 'block';
+        }
+      } catch (e) {
+        passwordAlert.className = 'alert alert-error';
+        passwordAlert.textContent = 'Terjadi kesalahan koneksi.';
+        passwordAlert.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Simpan Password Baru';
+      }
+    }
+
+    // Start
+    checkAuth();
+  </script>
+</body>
+</html>

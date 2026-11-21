@@ -5678,7 +5678,7 @@ document.addEventListener('keydown', function(e) {
 
 			<div class="clean-footer-bottom">
 				<div>Hanum Personal Image Studio &bull; Discover Your Personal Image</div>
-				<div>Designed for confidence and natural beauty</div>
+				<div>Designed for confidence and natural beauty &bull; <a href="/admin" target="_blank" style="color: #777; text-decoration: none;">Admin Login</a></div>
 			</div>
 		</footer>
 	</div> <!-- end site-inner -->
@@ -6450,6 +6450,29 @@ new Promise( ( resolve ) => {
 				if (e.key === 'ArrowLeft') renderItem(currentIndex - 1);
 				if (e.key === 'ArrowRight') renderItem(currentIndex + 1);
 			});
+
+			// Progressive synchronization with galeri.json
+			try {
+				fetch('/galeri.json?t=' + Date.now())
+					.then(function(res) { return res.json(); })
+					.then(function(items) {
+						if (Array.isArray(items) && items.length > 0) {
+							galleryImages = items.map(function(item) { return item.src; });
+							var container = document.querySelector('#galeri .gallery-grid');
+							if (container) {
+								container.innerHTML = items.map(function(item, idx) {
+									return '<div class="gallery-card scroll-animate" onclick="openGalleryModal(' + idx + ')">' +
+										'<img src="' + item.src + '" alt="Dokumentasi Hanum Personal Image Studio ' + (idx + 1) + '" loading="lazy" />' +
+										'<div class="gallery-zoom-hint">&#128269;</div>' +
+									'</div>';
+								}).join('');
+								var cards = container.querySelectorAll('.gallery-card');
+								cards.forEach(function(c) { c.classList.add('scroll-visible'); });
+							}
+						}
+					})
+					.catch(function() {});
+			} catch (err) {}
 		})();
 		</script>
 
