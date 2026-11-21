@@ -12,7 +12,7 @@
     "key": "hero_desktop",
     "name": "Foto Banner Hero (Desktop)",
     "section": "Banner Utama Layar Komputer / Laptop",
-    "src": "/images/site-hero_desktop.jpg?v=1795277249919",
+    "src": "/images/hero.png",
     "defaultSrc": "/images/hero.png",
     "aspect": "Landscape lebar (± 1920x900px)",
     "previewFit": "cover"
