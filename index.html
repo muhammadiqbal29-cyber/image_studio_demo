@@ -4808,7 +4808,7 @@ gtag("event", "page_view", {send_to: "GLA"});
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W4MSXJRK"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="site-container"><ul class="genesis-skip-link"><li><a href="index.html#genesis-content" class="screen-reader-shortcut"> Skip to main content</a></li></ul><nav class="nav-primary"><ul id="nav-primary" class="menu genesis-nav-menu js-superfish"></ul></nav><header class="site-header header-layout-left" itemscope itemtype="https://schema.org/WPHeader"><div class="wrap"><div class="title-area"><p class="site-title" itemprop="headline"><a href="index.html" class="custom-logo-link" rel="home"><img src="/images/logo-baru.jpg" srcset="/images/logo-baru.jpg 1x, images/logo-baru.jpg 1x" alt="Personal Color Analyst Image Studio" class="site-logo-img" width="220" height="70" loading="eager" fetchpriority="high" /></a></p><p class="site-description screen-reader-text" itemprop="description">Find Yourself Through Style</p></div><div class="mobile-header-actions">
+<div class="site-container"><ul class="genesis-skip-link"><li><a href="index.html#genesis-content" class="screen-reader-shortcut"> Skip to main content</a></li></ul><nav class="nav-primary"><ul id="nav-primary" class="menu genesis-nav-menu js-superfish"></ul></nav><header class="site-header header-layout-left" itemscope itemtype="https://schema.org/WPHeader"><div class="wrap"><div class="title-area"><p class="site-title" itemprop="headline"><a href="index.html" class="custom-logo-link" rel="home"><img src="/images/logo-baru.jpg" alt="Personal Color Analyst Image Studio" class="site-logo-img" width="220" height="70" loading="eager" fetchpriority="high" /></a></p><p class="site-description screen-reader-text" itemprop="description">Find Yourself Through Style</p></div><div class="mobile-header-actions">
   
   <button class="mobile-hamburger-btn" id="custom-mobile-menu-toggle" aria-label="Menu" onclick="toggleImageStudioMenu(event)">
     <span></span>
@@ -4911,7 +4911,7 @@ document.addEventListener('keydown', function(e) {
 		<div class="hero-bg-media-container" aria-hidden="true">
 			<picture>
 				<source media="(max-width: 1023px)" srcset="/images/hero-mobile-new.png, images/hero-mobile-new.png" />
-				<img src="/images/hero.png" srcset="/images/hero.png 1x, images/hero.png 1x" alt="Discover Your Personal Image" class="hero-bg-media-img" loading="eager" fetchpriority="high" />
+				<img src="/images/hero.png" alt="Discover Your Personal Image" class="hero-bg-media-img" loading="eager" fetchpriority="high" />
 			</picture>
 		</div>
 		<div class="elementor-element elementor-element-ed53359 e-con-full e-flex e-con e-child" data-id="ed53359" data-element_type="container" data-e-type="container">
@@ -6467,18 +6467,26 @@ new Promise( ( resolve ) => {
 				if (!el || !src) return;
 				var resolved = resolveMediaSrc(src);
 				el.src = resolved;
+				if (el.hasAttribute('srcset')) {
+					el.srcset = resolved;
+				}
 				if (!el.dataset.rawBound) {
 					el.dataset.rawBound = '1';
 					el.addEventListener('error', function() {
 						if (!this.dataset.fallbackDone) {
 							this.dataset.fallbackDone = '1';
-							this.src = 'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (src.split('?')[0]);
+							var cleanPath = (src.split('?')[0]);
+							var fallbackUrl = 'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (cleanPath.startsWith('/') ? cleanPath : '/' + cleanPath);
+							this.src = fallbackUrl;
+							if (this.hasAttribute('srcset')) {
+								this.srcset = fallbackUrl;
+							}
 						}
 					});
 				}
 			}
 
-			// Progressive synchronization with galeri (API first, fallback to static JSON)
+			// Progressive synchronization with galeri (API first, fallback to static JSON and raw GitHub)
 			(function syncGallery() {
 				function applyGalleryItems(items) {
 					if (Array.isArray(items) && items.length > 0) {
@@ -6499,13 +6507,18 @@ new Promise( ( resolve ) => {
 				}
 
 				fetch('/api/gallery?t=' + Date.now())
-					.then(function(res) { return res.json(); })
+					.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 					.then(function(data) { applyGalleryItems(data.items || data); })
 					.catch(function() {
 						fetch('/galeri.json?t=' + Date.now())
-							.then(function(res) { return res.json(); })
+							.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 							.then(function(items) { applyGalleryItems(items); })
-							.catch(function() {});
+							.catch(function() {
+								fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/galeri.json?t=' + Date.now())
+									.then(function(res) { return res.json(); })
+									.then(function(items) { applyGalleryItems(items); })
+									.catch(function() {});
+							});
 					});
 			})();
 
@@ -6513,11 +6526,43 @@ new Promise( ( resolve ) => {
 			(function syncSiteImages() {
 				function applySlots(slots) {
 					if (!slots) return;
-					if (slots.logo && slots.logo.src) {
-						document.querySelectorAll('img.site-logo-img').forEach(function(el) {
-							setLiveImgWithFallback(el, slots.logo.src);
-						});
+
+					// Hero Background Dynamic Overrides
+					var resolvedDesktop = (slots.hero_desktop && slots.hero_desktop.src) ? resolveMediaSrc(slots.hero_desktop.src) : '';
+					var resolvedMobile = (slots.hero_mobile && slots.hero_mobile.src) ? resolveMediaSrc(slots.hero_mobile.src) : '';
+
+					if (resolvedDesktop || resolvedMobile) {
+						var dynamicStyle = document.getElementById('dynamic-hero-style');
+						if (!dynamicStyle) {
+							dynamicStyle = document.createElement('style');
+							dynamicStyle.id = 'dynamic-hero-style';
+							document.head.appendChild(dynamicStyle);
+						}
+
+						var cssRules = '';
+						if (resolvedDesktop) {
+							cssRules += '@media (min-width: 1024px) {\n' +
+								'  .elementor-3507 .elementor-element.elementor-element-03aa0de:not(.elementor-motion-effects-element-type-background),\n' +
+								'  .elementor-3507 .elementor-element.elementor-element-03aa0de > .elementor-motion-effects-container > .elementor-motion-effects-layer,\n' +
+								'  .elementor-element-03aa0de,\n' +
+								'  .hero-section {\n' +
+								'    background-image: url("' + resolvedDesktop + '") !important;\n' +
+								'  }\n' +
+								'}\n';
+						}
+						if (resolvedMobile) {
+							cssRules += '@media (max-width: 1023px) {\n' +
+								'  .elementor-3507 .elementor-element.elementor-element-03aa0de:not(.elementor-motion-effects-element-type-background),\n' +
+								'  .elementor-3507 .elementor-element.elementor-element-03aa0de > .elementor-motion-effects-container > .elementor-motion-effects-layer,\n' +
+								'  .elementor-element-03aa0de,\n' +
+								'  .hero-section {\n' +
+								'    background-image: url("' + resolvedMobile + '") !important;\n' +
+								'  }\n' +
+								'}\n';
+						}
+						dynamicStyle.textContent = cssRules;
 					}
+
 					if (slots.hero_desktop && slots.hero_desktop.src) {
 						document.querySelectorAll('.hero-bg-media-img').forEach(function(el) {
 							setLiveImgWithFallback(el, slots.hero_desktop.src);
@@ -6525,12 +6570,13 @@ new Promise( ( resolve ) => {
 					}
 					if (slots.hero_mobile && slots.hero_mobile.src) {
 						document.querySelectorAll('.hero-bg-media-container source').forEach(function(el) {
-							el.srcset = slots.hero_mobile.src;
+							el.srcset = resolvedMobile;
 						});
-						var heroSec = document.querySelector('.hero-section');
-						if (heroSec && window.innerWidth < 1024) {
-							heroSec.style.backgroundImage = 'url("' + slots.hero_mobile.src + '")';
-						}
+					}
+					if (slots.logo && slots.logo.src) {
+						document.querySelectorAll('img.site-logo-img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.logo.src);
+						});
 					}
 					if (slots.consultant_photo && slots.consultant_photo.src) {
 						var consImg = document.querySelector('#consultant .consultant-grid img');
@@ -6559,13 +6605,18 @@ new Promise( ( resolve ) => {
 				}
 
 				fetch('/api/site-images?t=' + Date.now())
-					.then(function(res) { return res.json(); })
+					.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 					.then(function(data) { applySlots(data.slots || data); })
 					.catch(function() {
 						fetch('/data/site-images.json?t=' + Date.now())
-							.then(function(res) { return res.json(); })
+							.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 							.then(function(slots) { applySlots(slots); })
-							.catch(function() {});
+							.catch(function() {
+								fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/data/site-images.json?t=' + Date.now())
+									.then(function(res) { return res.json(); })
+									.then(function(slots) { applySlots(slots); })
+									.catch(function() {});
+							});
 					});
 			})();
 
@@ -6586,13 +6637,18 @@ new Promise( ( resolve ) => {
 				}
 
 				fetch('/api/mitra?t=' + Date.now())
-					.then(function(res) { return res.json(); })
+					.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 					.then(function(data) { applyMitra(data.items || data); })
 					.catch(function() {
 						fetch('/mitra.json?t=' + Date.now())
-							.then(function(res) { return res.json(); })
+							.then(function(res) { if (!res.ok) throw new Error('err'); return res.json(); })
 							.then(function(items) { applyMitra(items); })
-							.catch(function() {});
+							.catch(function() {
+								fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/mitra.json?t=' + Date.now())
+									.then(function(res) { return res.json(); })
+									.then(function(items) { applyMitra(items); })
+									.catch(function() {});
+							});
 					});
 			})();
 		})();

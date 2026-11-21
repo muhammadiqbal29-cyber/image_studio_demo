@@ -1295,9 +1295,19 @@
 
       try {
         const res = await fetch('/galeri.json?t=' + Date.now());
+        if (!res.ok) throw new Error('Fallback to raw');
+        const items = await res.json();
+        if (Array.isArray(items) && items.length > 0) {
+          renderGallery(items);
+          return;
+        }
+      } catch (err) {}
+
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/galeri.json?t=' + Date.now());
         const items = await res.json();
         renderGallery(items);
-      } catch (err) {
+      } catch (err2) {
         document.getElementById('admin-gallery-grid').innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">Belum ada foto galeri.</p>';
       }
     }
@@ -1457,14 +1467,27 @@
 
       try {
         let res = await fetch('/data/site-images.json?t=' + Date.now());
+        if (res.ok) {
+          const data = await res.json();
+          const slots = data.slots || data;
+          if (slots && typeof slots === 'object') {
+            cachedSlots = slots;
+            renderSiteImages(slots);
+            return;
+          }
+        }
+      } catch (err) {}
+
+      try {
+        let res = await fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/data/site-images.json?t=' + Date.now());
         const data = await res.json();
         const slots = data.slots || data;
         if (slots && typeof slots === 'object') {
           cachedSlots = slots;
           renderSiteImages(slots);
         }
-      } catch (err) {
-        console.error('Error loading site images:', err);
+      } catch (err2) {
+        console.error('Error loading site images:', err2);
       }
     }
 
@@ -1664,10 +1687,24 @@
 
       try {
         const res = await fetch('/mitra.json?t=' + Date.now());
+        if (res.ok) {
+          const items = await res.json();
+          if (Array.isArray(items) && items.length > 0) {
+            cachedMitra = items;
+            renderMitra(items);
+            return;
+          }
+        }
+      } catch (err) {}
+
+      try {
+        const res = await fetch('https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main/mitra.json?t=' + Date.now());
         const items = await res.json();
-        cachedMitra = items;
-        renderMitra(items);
-      } catch (err) {
+        if (Array.isArray(items) && items.length > 0) {
+          cachedMitra = items;
+          renderMitra(items);
+        }
+      } catch (err2) {
         document.getElementById('mitra-grid').innerHTML = '<p style="color: var(--text-muted); grid-column: 1/-1;">Belum ada data mitra.</p>';
       }
     }
