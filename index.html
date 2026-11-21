@@ -6451,102 +6451,150 @@ new Promise( ( resolve ) => {
 				if (e.key === 'ArrowRight') renderItem(currentIndex + 1);
 			});
 
-			// Progressive synchronization with galeri.json
-			try {
-				fetch('/galeri.json?t=' + Date.now())
-					.then(function(res) { return res.json(); })
-					.then(function(items) {
-						if (Array.isArray(items) && items.length > 0) {
-							galleryImages = items.map(function(item) { return item.src; });
-							var container = document.querySelector('#galeri .gallery-grid');
-							if (container) {
-								container.innerHTML = items.map(function(item, idx) {
-									return '<div class="gallery-card scroll-animate" onclick="openGalleryModal(' + idx + ')">' +
-										'<img src="' + item.src + '" alt="Dokumentasi Hanum Personal Image Studio ' + (idx + 1) + '" loading="lazy" />' +
-										'<div class="gallery-zoom-hint">&#128269;</div>' +
-									'</div>';
-								}).join('');
-								var cards = container.querySelectorAll('.gallery-card');
-								cards.forEach(function(c) { c.classList.add('scroll-visible'); });
-							}
+			// Helper to resolve dynamic uploads directly from raw GitHub
+			function resolveMediaSrc(src) {
+				if (!src) return '';
+				if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')) return src;
+				var clean = src.startsWith('/') ? src : '/' + src;
+				if (clean.indexOf('foto-') !== -1 || clean.indexOf('site-') !== -1 || clean.indexOf('mitra-') !== -1) {
+					return 'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + clean;
+				}
+				return clean;
+			}
+
+			// Helper for instant raw GitHub image fallback
+			function setLiveImgWithFallback(el, src) {
+				if (!el || !src) return;
+				var resolved = resolveMediaSrc(src);
+				el.src = resolved;
+				if (!el.dataset.rawBound) {
+					el.dataset.rawBound = '1';
+					el.addEventListener('error', function() {
+						if (!this.dataset.fallbackDone) {
+							this.dataset.fallbackDone = '1';
+							this.src = 'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (src.split('?')[0]);
 						}
-					})
-					.catch(function() {});
-			} catch (err) {}
+					});
+				}
+			}
+
+			// Progressive synchronization with galeri (API first, fallback to static JSON)
+			(function syncGallery() {
+				function applyGalleryItems(items) {
+					if (Array.isArray(items) && items.length > 0) {
+						galleryImages = items.map(function(item) { return resolveMediaSrc(item.src); });
+						var container = document.querySelector('#galeri .gallery-grid');
+						if (container) {
+							container.innerHTML = items.map(function(item, idx) {
+								var resolved = resolveMediaSrc(item.src);
+								return '<div class="gallery-card scroll-animate" onclick="openGalleryModal(' + idx + ')">' +
+									'<img src="' + resolved + '" alt="Dokumentasi Hanum Personal Image Studio ' + (idx + 1) + '" loading="lazy" data-src="' + item.src + '" onerror="if(!this.dataset.fallback){this.dataset.fallback=\'1\';this.src=\'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main\' + (this.getAttribute(\'data-src\') || \'\').split(\'?\')[0];}" />' +
+									'<div class="gallery-zoom-hint">&#128269;</div>' +
+								'</div>';
+							}).join('');
+							var cards = container.querySelectorAll('.gallery-card');
+							cards.forEach(function(c) { c.classList.add('scroll-visible'); });
+						}
+					}
+				}
+
+				fetch('/api/gallery?t=' + Date.now())
+					.then(function(res) { return res.json(); })
+					.then(function(data) { applyGalleryItems(data.items || data); })
+					.catch(function() {
+						fetch('/galeri.json?t=' + Date.now())
+							.then(function(res) { return res.json(); })
+							.then(function(items) { applyGalleryItems(items); })
+							.catch(function() {});
+					});
+			})();
 
 			// Progressive synchronization with site-images.json & mitra.json
-			try {
-				fetch('/data/site-images.json?t=' + Date.now())
+			(function syncSiteImages() {
+				function applySlots(slots) {
+					if (!slots) return;
+					if (slots.logo && slots.logo.src) {
+						document.querySelectorAll('img.site-logo-img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.logo.src);
+						});
+					}
+					if (slots.hero_desktop && slots.hero_desktop.src) {
+						document.querySelectorAll('.hero-bg-media-img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.hero_desktop.src);
+						});
+					}
+					if (slots.hero_mobile && slots.hero_mobile.src) {
+						document.querySelectorAll('.hero-bg-media-container source').forEach(function(el) {
+							el.srcset = slots.hero_mobile.src;
+						});
+						var heroSec = document.querySelector('.hero-section');
+						if (heroSec && window.innerWidth < 1024) {
+							heroSec.style.backgroundImage = 'url("' + slots.hero_mobile.src + '")';
+						}
+					}
+					if (slots.consultant_photo && slots.consultant_photo.src) {
+						var consImg = document.querySelector('#consultant .consultant-grid img');
+						if (consImg) setLiveImgWithFallback(consImg, slots.consultant_photo.src);
+					}
+					if (slots.service_color && slots.service_color.src) {
+						document.querySelectorAll('.service-overview-card.theme-cyan .service-card-media img, .portfolio-item-card.port-cyan img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.service_color.src);
+						});
+					}
+					if (slots.service_face && slots.service_face.src) {
+						document.querySelectorAll('.service-overview-card.theme-red .service-card-media img, .portfolio-item-card.port-red img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.service_face.src);
+						});
+					}
+					if (slots.service_fashion && slots.service_fashion.src) {
+						document.querySelectorAll('.service-overview-card.theme-yellow .service-card-media img, .portfolio-item-card.port-yellow img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.service_fashion.src);
+						});
+					}
+					if (slots.service_wardrobe && slots.service_wardrobe.src) {
+						document.querySelectorAll('.service-overview-card.theme-black .service-card-media img, .portfolio-item-card.port-black img').forEach(function(el) {
+							setLiveImgWithFallback(el, slots.service_wardrobe.src);
+						});
+					}
+				}
+
+				fetch('/api/site-images?t=' + Date.now())
 					.then(function(res) { return res.json(); })
-					.then(function(slots) {
-						if (!slots) return;
-						if (slots.logo && slots.logo.src) {
-							document.querySelectorAll('img.site-logo-img').forEach(function(el) {
-								el.src = slots.logo.src;
-								el.srcset = slots.logo.src;
-							});
-						}
-						if (slots.hero_desktop && slots.hero_desktop.src) {
-							document.querySelectorAll('.hero-bg-media-img').forEach(function(el) {
-								el.src = slots.hero_desktop.src;
-								el.srcset = slots.hero_desktop.src;
-							});
-						}
-						if (slots.hero_mobile && slots.hero_mobile.src) {
-							document.querySelectorAll('.hero-bg-media-container source').forEach(function(el) {
-								el.srcset = slots.hero_mobile.src;
-							});
-							var heroSec = document.querySelector('.hero-section');
-							if (heroSec && window.innerWidth < 1024) {
-								heroSec.style.backgroundImage = 'url("' + slots.hero_mobile.src + '")';
-							}
-						}
-						if (slots.consultant_photo && slots.consultant_photo.src) {
-							var consImg = document.querySelector('#consultant .consultant-grid img');
-							if (consImg) consImg.src = slots.consultant_photo.src;
-						}
-						if (slots.service_color && slots.service_color.src) {
-							document.querySelectorAll('.service-overview-card.theme-cyan .service-card-media img, .portfolio-item-card.port-cyan img').forEach(function(el) {
-								el.src = slots.service_color.src;
-							});
-						}
-						if (slots.service_face && slots.service_face.src) {
-							document.querySelectorAll('.service-overview-card.theme-red .service-card-media img, .portfolio-item-card.port-red img').forEach(function(el) {
-								el.src = slots.service_face.src;
-							});
-						}
-						if (slots.service_fashion && slots.service_fashion.src) {
-							document.querySelectorAll('.service-overview-card.theme-yellow .service-card-media img, .portfolio-item-card.port-yellow img').forEach(function(el) {
-								el.src = slots.service_fashion.src;
-							});
-						}
-						if (slots.service_wardrobe && slots.service_wardrobe.src) {
-							document.querySelectorAll('.service-overview-card.theme-black .service-card-media img, .portfolio-item-card.port-black img').forEach(function(el) {
-								el.src = slots.service_wardrobe.src;
-							});
-						}
-					})
-					.catch(function() {});
-			} catch (err) {}
+					.then(function(data) { applySlots(data.slots || data); })
+					.catch(function() {
+						fetch('/data/site-images.json?t=' + Date.now())
+							.then(function(res) { return res.json(); })
+							.then(function(slots) { applySlots(slots); })
+							.catch(function() {});
+					});
+			})();
 
 			// Progressive synchronization with mitra.json
-			try {
-				fetch('/mitra.json?t=' + Date.now())
-					.then(function(res) { return res.json(); })
-					.then(function(items) {
-						if (Array.isArray(items) && items.length > 0) {
-							var mitraGrid = document.querySelector('.mitra-logos-grid');
-							if (mitraGrid) {
-								mitraGrid.innerHTML = items.map(function(m) {
-									return '<div class="mitra-logo-card">' +
-										'<img src="' + m.src + '" alt="' + (m.name || 'Mitra') + '" title="' + (m.name || 'Mitra') + '" loading="lazy" />' +
-									'</div>';
-								}).join('');
-							}
+			(function syncMitra() {
+				function applyMitra(items) {
+					if (Array.isArray(items) && items.length > 0) {
+						var mitraGrid = document.querySelector('.mitra-logos-grid');
+						if (mitraGrid) {
+							mitraGrid.innerHTML = items.map(function(m) {
+								var resolved = resolveMediaSrc(m.src);
+								return '<div class="mitra-logo-card">' +
+									'<img src="' + resolved + '" alt="' + (m.name || 'Mitra') + '" title="' + (m.name || 'Mitra') + '" loading="lazy" data-src="' + m.src + '" onerror="if(!this.dataset.fallback){this.dataset.fallback=\'1\';this.src=\'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main\' + (this.getAttribute(\'data-src\') || \'\').split(\'?\')[0];}" />' +
+								'</div>';
+							}).join('');
 						}
-					})
-					.catch(function() {});
-			} catch (err) {}
+					}
+				}
+
+				fetch('/api/mitra?t=' + Date.now())
+					.then(function(res) { return res.json(); })
+					.then(function(data) { applyMitra(data.items || data); })
+					.catch(function() {
+						fetch('/mitra.json?t=' + Date.now())
+							.then(function(res) { return res.json(); })
+							.then(function(items) { applyMitra(items); })
+							.catch(function() {});
+					});
+			})();
 		})();
 		</script>
 

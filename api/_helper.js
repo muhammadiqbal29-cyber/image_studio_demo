@@ -70,12 +70,13 @@ function getBearerToken(req) {
 async function getJson(relPath, fallback) {
   if (GITHUB_TOKEN) {
     try {
-      const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${relPath}?ref=${REPO_BRANCH}`;
+      const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${relPath}?ref=${REPO_BRANCH}&_t=${Date.now()}`;
       const res = await fetch(url, {
         headers: {
           'Authorization': `Bearer ${GITHUB_TOKEN}`,
           'Accept': 'application/vnd.github+json',
-          'User-Agent': 'ImageStudio-CMS'
+          'User-Agent': 'ImageStudio-CMS',
+          'Cache-Control': 'no-cache, no-store, must-revalidate'
         }
       });
       if (res.ok) {

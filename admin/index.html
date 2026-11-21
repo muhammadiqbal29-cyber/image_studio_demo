@@ -1266,9 +1266,33 @@
     }
 
     // ========================================================
+    // MEDIA SOURCE RESOLVER (Instant Raw GitHub for dynamic uploads)
+    // ========================================================
+    function resolveMediaSrc(src) {
+      if (!src) return '';
+      if (src.startsWith('http://') || src.startsWith('https://') || src.startsWith('data:')) return src;
+      const clean = src.startsWith('/') ? src : '/' + src;
+      if (clean.includes('foto-') || clean.includes('site-') || clean.includes('mitra-')) {
+        return 'https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + clean;
+      }
+      return clean;
+    }
+
+    // ========================================================
     // TAB 1: GALERI FUNCTIONS
     // ========================================================
     async function loadGallery() {
+      try {
+        let res = await fetch('/api/gallery?t=' + Date.now());
+        if (!res.ok) throw new Error('Fallback to static');
+        let data = await res.json();
+        let items = data.items || data;
+        if (Array.isArray(items) && items.length > 0) {
+          renderGallery(items);
+          return;
+        }
+      } catch (e1) {}
+
       try {
         const res = await fetch('/galeri.json?t=' + Date.now());
         const items = await res.json();
@@ -1296,7 +1320,7 @@
       grid.innerHTML = items.map((item, idx) => `
         <div class="admin-card">
           <div class="admin-card-img-wrap">
-            <img src="${item.src}" alt="Foto Galeri" class="admin-card-img" loading="lazy">
+            <img src="${resolveMediaSrc(item.src)}" alt="Foto Galeri" class="admin-card-img" loading="lazy" data-src="${item.src}" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (this.getAttribute('data-src') || '').split('?')[0];}">
           </div>
           <div class="admin-card-actions">
             <span class="admin-card-num">#${idx + 1}</span>
@@ -1419,10 +1443,20 @@
     // ========================================================
     async function loadSiteImages() {
       try {
-        let res = await fetch('/data/site-images.json?t=' + Date.now());
-        if (!res.ok) {
-          res = await fetch('/api/site-images?t=' + Date.now());
+        let res = await fetch('/api/site-images?t=' + Date.now());
+        if (res.ok) {
+          const data = await res.json();
+          const slots = data.slots || data;
+          if (slots && typeof slots === 'object') {
+            cachedSlots = slots;
+            renderSiteImages(slots);
+            return;
+          }
         }
+      } catch (e1) {}
+
+      try {
+        let res = await fetch('/data/site-images.json?t=' + Date.now());
         const data = await res.json();
         const slots = data.slots || data;
         if (slots && typeof slots === 'object') {
@@ -1450,7 +1484,7 @@
               ${isModified ? '<span style="font-size: 11px; color: #16a34a; font-weight: 700;">&bull; Kustom</span>' : '<span style="font-size: 11px; color: var(--text-muted);">&bull; Default</span>'}
             </div>
             <div class="slot-media-wrap">
-              <img src="${item.src}" alt="${item.name}" class="slot-media-img ${fitClass}" loading="lazy">
+              <img src="${resolveMediaSrc(item.src)}" alt="${item.name}" class="slot-media-img ${fitClass}" loading="lazy" data-src="${item.src}" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (this.getAttribute('data-src') || '').split('?')[0];}">
             </div>
             <div class="slot-card-body">
               <h4 class="slot-title">${item.name}</h4>
@@ -1483,8 +1517,8 @@
       document.getElementById('slot-modal-title').textContent = 'Ganti ' + slot.name;
       document.getElementById('slot-modal-subtitle').textContent = 'Lokasi: ' + slot.section;
       document.getElementById('slot-modal-rec').textContent = 'Rekomendasi: ' + slot.aspect;
-      document.getElementById('slot-modal-current-img').src = slot.src;
-      document.getElementById('slot-modal-new-img').src = slot.src;
+      document.getElementById('slot-modal-current-img').src = resolveMediaSrc(slot.src);
+      document.getElementById('slot-modal-new-img').src = resolveMediaSrc(slot.src);
       document.getElementById('slot-modal-size-info').textContent = '';
       document.getElementById('slot-save-btn').disabled = true;
       document.getElementById('slot-file-input').value = '';
@@ -1616,6 +1650,19 @@
     // ========================================================
     async function loadMitra() {
       try {
+        let res = await fetch('/api/mitra?t=' + Date.now());
+        if (res.ok) {
+          const data = await res.json();
+          const items = data.items || data;
+          if (Array.isArray(items) && items.length > 0) {
+            cachedMitra = items;
+            renderMitra(items);
+            return;
+          }
+        }
+      } catch (e1) {}
+
+      try {
         const res = await fetch('/mitra.json?t=' + Date.now());
         const items = await res.json();
         cachedMitra = items;
@@ -1640,7 +1687,7 @@
       grid.innerHTML = items.map((m, idx) => `
         <div class="mitra-card">
           <div class="mitra-logo-wrap">
-            <img src="${m.src}" alt="${m.name}" title="${m.name}" loading="lazy">
+            <img src="${resolveMediaSrc(m.src)}" alt="${m.name}" title="${m.name}" loading="lazy" data-src="${m.src}" onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='https://raw.githubusercontent.com/muhammadiqbal29-cyber/image_studio_demo/main' + (this.getAttribute('data-src') || '').split('?')[0];}">
           </div>
           <h4 class="mitra-name">${m.name}</h4>
           <div class="mitra-actions">
@@ -1678,7 +1725,7 @@
       document.getElementById('mitra-name-input').value = item.name;
       document.getElementById('mitra-file-input').value = '';
       const previewImg = document.getElementById('mitra-preview-img');
-      previewImg.src = item.src;
+      previewImg.src = resolveMediaSrc(item.src);
       previewImg.style.display = 'block';
       document.getElementById('mitra-no-preview').style.display = 'none';
       document.getElementById('mitra-file-info').textContent = 'Pilih logo baru jika ingin mengganti berkas saat ini';
