@@ -62,6 +62,19 @@ module.exports = async function handler(req, res) {
           return res.status(400).json({ success: false, message: 'Ukuran logo maksimal 4.5 MB.' });
         }
 
+        // If replacing existing custom logo, clean up old file
+        if (targetItem && targetItem.src) {
+          let oldPath = targetItem.src.split('?')[0];
+          if (oldPath.startsWith('/')) oldPath = oldPath.substring(1);
+          if (oldPath.startsWith('logo_mitra/mitra-')) {
+            try {
+              await deleteFileFromGitHub(oldPath, `chore(mitra): hapus berkas logo lama ${oldPath}`);
+            } catch (e) {
+              console.warn('Could not delete old logo file:', e.message);
+            }
+          }
+        }
+
         const timestamp = Date.now();
         const safeFilename = `mitra-${timestamp}.${ext}`;
         const repoFilePath = `logo_mitra/${safeFilename}`;

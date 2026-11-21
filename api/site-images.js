@@ -2,7 +2,8 @@ const {
   verifyToken,
   getBearerToken,
   readLocalJson,
-  commitFileToGitHub
+  commitFileToGitHub,
+  deleteFileFromGitHub
 } = require('./_helper');
 
 module.exports = async function handler(req, res) {
@@ -40,8 +41,20 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ success: false, message: `Slot foto "${key}" tidak ditemukan.` });
       }
 
-      // Handle Reset to Default
+      // Handle Reset to Default (clean up custom file if exists)
       if (action === 'reset') {
+        const oldSrc = slots[key].src || '';
+        let oldPath = oldSrc.split('?')[0];
+        if (oldPath.startsWith('/')) oldPath = oldPath.substring(1);
+
+        if (oldPath.startsWith('images/site-')) {
+          try {
+            await deleteFileFromGitHub(oldPath, `chore(site-images): hapus berkas kustom slot ${key} (${oldPath})`);
+          } catch (e) {
+            console.warn('Could not delete old custom file:', e.message);
+          }
+        }
+
         slots[key].src = slots[key].defaultSrc;
         const updatedJsonString = JSON.stringify(slots, null, 2);
         const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
@@ -78,12 +91,25 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const timestamp = Date.now();
-      const safeFilename = `site-${key}-${timestamp}.${ext}`;
+      // Fixed filename per slot: images/site-${key}.${ext}
+      // If file with same name exists, commitFileToGitHub OVERWRITES (menimpa) it directly!
+      const safeFilename = `site-${key}.${ext}`;
       const repoFilePath = `images/${safeFilename}`;
-      const publicSrc = `/images/${safeFilename}`;
+      const publicSrc = `/images/${safeFilename}?v=${Date.now()}`;
 
-      // 1. Commit image file
+      // Check if previous custom file had a different extension (e.g. .png replaced by .jpg), clean it up
+      const oldSrc = slots[key].src || '';
+      let oldPath = oldSrc.split('?')[0];
+      if (oldPath.startsWith('/')) oldPath = oldPath.substring(1);
+      if (oldPath.startsWith('images/site-') && oldPath !== repoFilePath) {
+        try {
+          await deleteFileFromGitHub(oldPath, `chore(site-images): hapus berkas format lama ${oldPath}`);
+        } catch (delOldErr) {
+          console.warn('Could not delete old extension file:', delOldErr.message);
+        }
+      }
+
+      // 1. Commit/overwrite image file in GitHub/disk
       await commitFileToGitHub(repoFilePath, cleanB64, `feat(site-images): perbarui foto ${slots[key].name} (${safeFilename})`);
 
       // 2. Update site-images.json
