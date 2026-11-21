@@ -4253,6 +4253,75 @@ footer.site-footer.clean-footer,
     text-align: center;
   }
 }
+
+/* ============================================================
+   SCROLL REVEAL ANIMATIONS (Inspired by Saekjo Studios)
+   Smooth slide-up (translateY: 36px -> 0) & fade-in (opacity: 0 -> 1)
+   with staggered cascading delays for grid items
+   ============================================================ */
+.has-scroll-anim .scroll-animate {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.has-scroll-anim .scroll-animate.scroll-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered delay for grid cards */
+.has-scroll-anim .services-overview-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .dimension-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .discoveries-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .portfolio-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .booking-steps-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .faq-grid > .scroll-animate:nth-child(1),
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(1) { transition-delay: 0.05s; }
+
+.has-scroll-anim .services-overview-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .dimension-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .discoveries-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .portfolio-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .booking-steps-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .faq-grid > .scroll-animate:nth-child(2),
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(2) { transition-delay: 0.12s; }
+
+.has-scroll-anim .services-overview-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .dimension-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .discoveries-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .portfolio-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .booking-steps-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .faq-grid > .scroll-animate:nth-child(3),
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(3) { transition-delay: 0.19s; }
+
+.has-scroll-anim .services-overview-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .dimension-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .discoveries-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .portfolio-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .booking-steps-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .faq-grid > .scroll-animate:nth-child(4),
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(4) { transition-delay: 0.26s; }
+
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(5) { transition-delay: 0.31s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(6) { transition-delay: 0.36s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(7) { transition-delay: 0.41s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(8) { transition-delay: 0.46s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(9) { transition-delay: 0.51s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(10) { transition-delay: 0.56s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(11) { transition-delay: 0.61s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(12) { transition-delay: 0.66s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(13) { transition-delay: 0.71s; }
+.has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(14) { transition-delay: 0.76s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .has-scroll-anim .scroll-animate {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
 <body class="home wp-singular page-template page-template-elementor_header_footer page page-id-3507 wp-theme-genesis wp-child-theme-hm-honeydew theme-genesis surecart-theme-light woocommerce-no-js eio-default ehf-template-genesis ehf-stylesheet-hm-honeydew custom-header header-image header-full-width full-width-content genesis-breadcrumbs-hidden genesis-footer-widgets-hidden elementor-default elementor-template-full-width elementor-kit-3535 elementor-page elementor-page-3507 " itemscope itemtype="https://schema.org/WebPage"><script>
@@ -5714,6 +5783,72 @@ new Promise( ( resolve ) => {
 					isCart: false,
 				};
 			})();
+		</script>
+
+		<!-- Scroll Reveal Animations (Inspired by Saekjo Studios) -->
+		<script id="saekjo-scroll-animations">
+		(function() {
+			if (typeof window === 'undefined') return;
+
+			function initScrollReveal() {
+				if (!('IntersectionObserver' in window)) return;
+
+				document.documentElement.classList.add('has-scroll-anim');
+
+				var observerOptions = {
+					threshold: 0.12,
+					rootMargin: '0px 0px -40px 0px'
+				};
+
+				var observer = new IntersectionObserver(function(entries, obs) {
+					entries.forEach(function(entry) {
+						if (entry.isIntersecting) {
+							entry.target.classList.add('scroll-visible');
+							obs.unobserve(entry.target);
+						}
+					});
+				}, observerOptions);
+
+				var selectors = [
+					'.elementor-element-c1ea76a',
+					'.elementor-element-82a7264',
+					'.elementor-element-040af7d',
+					'section.site-section > .wrap > div:first-child',
+					'.service-overview-card',
+					'.dimension-card',
+					'.discover-card',
+					'.consultant-grid > *',
+					'.consultant-badges-grid > *',
+					'.portfolio-item-card',
+					'.mitra-logo-card',
+					'.mitra-collab-cta',
+					'.booking-step-card',
+					'.booking-cta-box',
+					'.faq-card'
+				];
+
+				var elements = document.querySelectorAll(selectors.join(', '));
+				var windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+				elements.forEach(function(el) {
+					el.classList.add('scroll-animate');
+					var rect = el.getBoundingClientRect();
+					if (rect.top < windowHeight * 0.9 && rect.bottom > 0) {
+						setTimeout(function() {
+							el.classList.add('scroll-visible');
+						}, 120);
+					} else {
+						observer.observe(el);
+					}
+				});
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initScrollReveal);
+			} else {
+				initScrollReveal();
+			}
+		})();
 		</script>
 		</body></html>
 <!-- Cached by WP-Optimize (gzip) - https://teamupdraft.com/wp-optimize/ - Last modified: November 7, 2026 9:57 AM (America/Mexico_City UTC:-6) -->
