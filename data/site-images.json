@@ -5,16 +5,16 @@
     "section": "Header & Footer Website",
     "src": "/images/logo-baru.jpg",
     "defaultSrc": "/images/logo-baru.jpg",
-    "aspect": "Landscape horizontal (\u00b1 300x80px PNG/JPG)",
+    "aspect": "Landscape horizontal (± 300x80px PNG/JPG)",
     "previewFit": "contain"
   },
   "hero_desktop": {
     "key": "hero_desktop",
     "name": "Foto Banner Hero (Desktop)",
     "section": "Banner Utama Layar Komputer / Laptop",
-    "src": "/images/hero.png",
+    "src": "/images/site-hero_desktop.jpg?v=1795277249919",
     "defaultSrc": "/images/hero.png",
-    "aspect": "Landscape lebar (\u00b1 1920x900px)",
+    "aspect": "Landscape lebar (± 1920x900px)",
     "previewFit": "cover"
   },
   "hero_mobile": {
@@ -23,7 +23,7 @@
     "section": "Banner Utama Layar Smartphone / HP",
     "src": "/images/hero-mobile-new.png",
     "defaultSrc": "/images/hero-mobile-new.png",
-    "aspect": "Portrait vertikal (\u00b1 900x1200px)",
+    "aspect": "Portrait vertikal (± 900x1200px)",
     "previewFit": "cover"
   },
   "consultant_photo": {
@@ -32,7 +32,7 @@
     "section": "Section 04: Meet Your Consultant",
     "src": "/images/hero-mobile-new.png",
     "defaultSrc": "/images/hero-mobile-new.png",
-    "aspect": "Portrait vertikal (\u00b1 600x800px)",
+    "aspect": "Portrait vertikal (± 600x800px)",
     "previewFit": "cover"
   },
   "service_color": {
@@ -41,7 +41,7 @@
     "section": "Section 01: Our Services (Kartu 1)",
     "src": "/images/personalcolor.jpeg",
     "defaultSrc": "/images/personalcolor.jpeg",
-    "aspect": "Portrait rasio 4:5 (\u00b1 800x1000px)",
+    "aspect": "Portrait rasio 4:5 (± 800x1000px)",
     "previewFit": "cover"
   },
   "service_face": {
@@ -50,7 +50,7 @@
     "section": "Section 01: Our Services (Kartu 2)",
     "src": "/images/faceanalys.jpeg",
     "defaultSrc": "/images/faceanalys.jpeg",
-    "aspect": "Portrait rasio 4:5 (\u00b1 800x1000px)",
+    "aspect": "Portrait rasio 4:5 (± 800x1000px)",
     "previewFit": "cover"
   },
   "service_fashion": {
@@ -59,7 +59,7 @@
     "section": "Section 01: Our Services (Kartu 3)",
     "src": "/images/fashionanalys.jpeg",
     "defaultSrc": "/images/fashionanalys.jpeg",
-    "aspect": "Portrait rasio 4:5 (\u00b1 800x1000px)",
+    "aspect": "Portrait rasio 4:5 (± 800x1000px)",
     "previewFit": "cover"
   },
   "service_wardrobe": {
@@ -68,7 +68,7 @@
     "section": "Section 01: Our Services (Kartu 4)",
     "src": "/images/wardrobe.jpeg",
     "defaultSrc": "/images/wardrobe.jpeg",
-    "aspect": "Portrait rasio 4:5 (\u00b1 800x1000px)",
+    "aspect": "Portrait rasio 4:5 (± 800x1000px)",
     "previewFit": "cover"
   }
 }
