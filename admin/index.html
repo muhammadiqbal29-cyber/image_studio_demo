@@ -1192,10 +1192,25 @@
       }
 
       const img = new Image();
-      const objectUrl = URL.createObjectURL(file);
+      let objectUrl = '';
+      try {
+        objectUrl = URL.createObjectURL(file);
+      } catch (e) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          callback(null, {
+            base64: evt.target.result,
+            originalMB: (file.size / (1024 * 1024)).toFixed(2),
+            optimizedMB: (file.size / (1024 * 1024)).toFixed(2),
+            filename: file.name
+          });
+        };
+        reader.readAsDataURL(file);
+        return;
+      }
+
       img.onload = function() {
-        URL.revokeObjectURL(objectUrl);
-        const MAX_DIM = maxDimension || 1920;
+        const MAX_DIM = maxDimension || 1600;
         let width = img.naturalWidth || img.width;
         let height = img.naturalHeight || img.height;
 
@@ -1215,11 +1230,17 @@
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        const mimeType = (file.type === 'image/png' && file.size < 2 * 1024 * 1024) ? 'image/png' : 'image/jpeg';
-        const optimizedBase64 = canvas.toDataURL(mimeType, quality || 0.88);
+        setTimeout(() => { if (objectUrl) URL.revokeObjectURL(objectUrl); }, 150);
 
-        const head = optimizedBase64.indexOf(';base64,') + 8;
-        const b64Bytes = Math.round((optimizedBase64.length - head) * 0.75);
+        // Always compress as JPEG (0.82) for gallery & section photos to guarantee lightweight payload
+        const mimeType = (file.type === 'image/png' && file.size < 100 * 1024) ? 'image/png' : 'image/jpeg';
+        let optimizedBase64 = canvas.toDataURL(mimeType, quality || 0.82);
+
+        let b64Bytes = Math.round((optimizedBase64.length - 22) * 0.75);
+        if (b64Bytes > 2.5 * 1024 * 1024) {
+          optimizedBase64 = canvas.toDataURL('image/jpeg', 0.70);
+          b64Bytes = Math.round((optimizedBase64.length - 22) * 0.75);
+        }
 
         callback(null, {
           base64: optimizedBase64,
@@ -1229,8 +1250,7 @@
         });
       };
       img.onerror = function() {
-        URL.revokeObjectURL(objectUrl);
-        // Fallback direct read
+        setTimeout(() => { if (objectUrl) URL.revokeObjectURL(objectUrl); }, 150);
         const reader = new FileReader();
         reader.onload = function(e) {
           callback(null, {
@@ -1347,8 +1367,14 @@
           })
         });
 
+        if (res.status === 401) {
+          alert('Sesi login Anda telah kedaluwarsa. Silakan login kembali.');
+          logout();
+          return;
+        }
+
         const data = await res.json();
-        if (data.success) {
+        if (res.ok && data.success) {
           showToast('Foto baru berhasil ditambahkan ke galeri!');
           cancelGalleryPreview();
           if (data.items) renderGallery(data.items);
@@ -1523,8 +1549,14 @@
           })
         });
 
+        if (res.status === 401) {
+          alert('Sesi login Anda telah kedaluwarsa. Silakan login kembali.');
+          logout();
+          return;
+        }
+
         const data = await res.json();
-        if (data.success) {
+        if (res.ok && data.success) {
           showToast(data.message || 'Foto website berhasil diperbarui!');
           closeSiteImageModal();
           if (data.slots) {
@@ -1718,8 +1750,14 @@
           })
         });
 
+        if (res.status === 401) {
+          alert('Sesi login Anda telah kedaluwarsa. Silakan login kembali.');
+          logout();
+          return;
+        }
+
         const data = await res.json();
-        if (data.success) {
+        if (res.ok && data.success) {
           showToast(data.message || 'Mitra berhasil disimpan!');
           closeMitraModal();
           if (data.items) {
@@ -1857,6 +1895,7 @@
         galleryDropZone.addEventListener('drop', (e) => {
           if (e.dataTransfer.files && e.dataTransfer.files[0]) handleGalleryFile(e.dataTransfer.files[0]);
         });
+        galleryFileInput.addEventListener('click', (e) => { e.target.value = ''; });
         galleryFileInput.addEventListener('change', (e) => {
           if (e.target.files && e.target.files[0]) handleGalleryFile(e.target.files[0]);
         });
@@ -1865,6 +1904,7 @@
       // 2. Slot Modal File Input
       const slotFileInput = document.getElementById('slot-file-input');
       if (slotFileInput) {
+        slotFileInput.addEventListener('click', (e) => { e.target.value = ''; });
         slotFileInput.addEventListener('change', (e) => {
           if (e.target.files && e.target.files[0]) handleSlotFile(e.target.files[0]);
         });
@@ -1873,6 +1913,7 @@
       // 3. Mitra Modal File Input
       const mitraFileInput = document.getElementById('mitra-file-input');
       if (mitraFileInput) {
+        mitraFileInput.addEventListener('click', (e) => { e.target.value = ''; });
         mitraFileInput.addEventListener('change', (e) => {
           if (e.target.files && e.target.files[0]) handleMitraFile(e.target.files[0]);
         });
