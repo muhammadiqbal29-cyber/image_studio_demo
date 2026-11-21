@@ -80,6 +80,7 @@ module.exports = async function handler(req, res) {
 
       // 2. Update galeri.json (via GitHub or local)
       const items = await getJson('galeri.json', []);
+      const jsonSha = items.__sha;
       const newItem = {
         id: String(timestamp),
         src: publicSrc,
@@ -92,7 +93,7 @@ module.exports = async function handler(req, res) {
       const updatedJsonString = JSON.stringify(items, null, 2);
       const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
 
-      await commitFileToGitHub('galeri.json', updatedJsonBase64, `feat(galeri): perbarui daftar galeri.json`);
+      await commitFileToGitHub('galeri.json', updatedJsonBase64, `feat(galeri): perbarui daftar galeri.json`, jsonSha);
 
       return res.status(200).json({
         success: true,
@@ -133,9 +134,10 @@ module.exports = async function handler(req, res) {
       const updatedItems = items.filter(item => item !== targetItem);
 
       // 1. Update galeri.json
+      const jsonSha = items.__sha;
       const updatedJsonString = JSON.stringify(updatedItems, null, 2);
       const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
-      await commitFileToGitHub('galeri.json', updatedJsonBase64, `chore(galeri): hapus foto ${targetItem.id} dari galeri.json`);
+      await commitFileToGitHub('galeri.json', updatedJsonBase64, `chore(galeri): hapus foto ${targetItem.id} dari galeri.json`, jsonSha);
 
       // 2. Delete file if it's in galeri/
       let filePath = targetItem.src.startsWith('/') ? targetItem.src.substring(1) : targetItem.src;

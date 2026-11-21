@@ -1278,6 +1278,30 @@
       return clean;
     }
 
+    async function safeParseJson(res) {
+      const text = await res.text();
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        if (res.status === 401) {
+          throw new Error('Sesi login Anda telah kedaluwarsa. Silakan login kembali.');
+        }
+        if (res.status === 413) {
+          throw new Error('Ukuran foto terlalu besar untuk server (Status 413). Gunakan foto lebih kecil.');
+        }
+        if (res.status === 504) {
+          throw new Error('Server mengalami batas waktu (timeout 504). Silakan coba klik tombol Simpan sekali lagi.');
+        }
+        if (res.status === 403) {
+          throw new Error('Keamanan server membatasi koneksi sementara (Status 403). Silakan coba simpan beberapa saat lagi.');
+        }
+        if (res.status >= 500) {
+          throw new Error(`Server sedang memperbarui layanan (Status ${res.status}). Silakan coba beberapa detik lagi.`);
+        }
+        throw new Error(`Respon server (Status ${res.status}): ` + (text ? text.substring(0, 100) : 'Tidak ada data'));
+      }
+    }
+
     // ========================================================
     // TAB 1: GALERI FUNCTIONS
     // ========================================================
@@ -1407,7 +1431,7 @@
           return;
         }
 
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (res.ok && data.success) {
           showToast('Foto baru berhasil ditambahkan ke galeri!');
           cancelGalleryPreview();
@@ -1417,7 +1441,7 @@
           alert(data.message || 'Gagal mengupload foto.');
         }
       } catch (e) {
-        alert('Kesalahan saat mengupload: ' + e.message);
+        alert(e.message);
       } finally {
         btn.disabled = false;
         btn.textContent = 'Simpan ke Galeri';
@@ -1435,7 +1459,7 @@
           },
           body: JSON.stringify({ id, src })
         });
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (data.success) {
           showToast('Foto galeri berhasil dihapus.');
           if (data.items) renderGallery(data.items);
@@ -1444,7 +1468,7 @@
           alert(data.message || 'Gagal menghapus foto.');
         }
       } catch (e) {
-        alert('Kesalahan saat menghapus: ' + e.message);
+        alert(e.message);
       }
     }
 
@@ -1612,7 +1636,7 @@
           return;
         }
 
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (res.ok && data.success) {
           showToast(data.message || 'Foto website berhasil diperbarui!');
           closeSiteImageModal();
@@ -1629,7 +1653,7 @@
         }
       } catch (err) {
         alertBox.className = 'alert alert-error';
-        alertBox.textContent = 'Kesalahan: ' + err.message;
+        alertBox.textContent = err.message;
         alertBox.style.display = 'block';
       } finally {
         btn.disabled = false;
@@ -1651,7 +1675,7 @@
           },
           body: JSON.stringify({ key, action: 'reset' })
         });
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (data.success) {
           showToast(data.message || 'Foto berhasil dikembalikan ke default.');
           if (data.slots) {
@@ -1664,7 +1688,7 @@
           alert(data.message || 'Gagal mereset foto.');
         }
       } catch (err) {
-        alert('Kesalahan: ' + err.message);
+        alert(err.message);
       }
     }
 
@@ -1840,7 +1864,7 @@
           return;
         }
 
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (res.ok && data.success) {
           showToast(data.message || 'Mitra berhasil disimpan!');
           closeMitraModal();
@@ -1857,7 +1881,7 @@
         }
       } catch (err) {
         alertBox.className = 'alert alert-error';
-        alertBox.textContent = 'Kesalahan: ' + err.message;
+        alertBox.textContent = err.message;
         alertBox.style.display = 'block';
       } finally {
         btn.disabled = false;
@@ -1876,7 +1900,7 @@
           },
           body: JSON.stringify({ id })
         });
-        const data = await res.json();
+        const data = await safeParseJson(res);
         if (data.success) {
           showToast(`Mitra "${name}" berhasil dihapus.`);
           if (data.items) {
@@ -1889,7 +1913,7 @@
           alert(data.message || 'Gagal menghapus mitra.');
         }
       } catch (err) {
-        alert('Kesalahan saat menghapus: ' + err.message);
+        alert(err.message);
       }
     }
 

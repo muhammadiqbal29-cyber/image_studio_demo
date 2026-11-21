@@ -83,7 +83,11 @@ async function getJson(relPath, fallback) {
         const data = await res.json();
         if (data && data.content) {
           const utf8Str = Buffer.from(data.content, 'base64').toString('utf8');
-          return JSON.parse(utf8Str);
+          const parsed = JSON.parse(utf8Str);
+          if (parsed && typeof parsed === 'object') {
+            Object.defineProperty(parsed, '__sha', { value: data.sha, writable: true, enumerable: false });
+          }
+          return parsed;
         }
       }
     } catch (e) {
@@ -135,7 +139,7 @@ function readLocalJson(relPath, fallback) {
 }
 
 // GitHub API: Save / Commit file
-async function commitFileToGitHub(filePath, base64Content, commitMessage) {
+async function commitFileToGitHub(filePath, base64Content, commitMessage, knownSha) {
   if (!GITHUB_TOKEN) {
     // If running locally, write directly to disk
     const fullPath = path.resolve(process.cwd(), filePath);
@@ -146,22 +150,25 @@ async function commitFileToGitHub(filePath, base64Content, commitMessage) {
 
   const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`;
 
-  // Check if file already exists to get SHA
-  let existingSha = undefined;
-  try {
-    const checkRes = await fetch(url + `?ref=${REPO_BRANCH}`, {
-      headers: {
-        'Authorization': `Bearer ${GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github+json',
-        'User-Agent': 'ImageStudio-CMS'
+  // Check if file already exists to get SHA (use knownSha if provided to save an API roundtrip)
+  let existingSha = knownSha;
+  if (!existingSha) {
+    try {
+      const checkRes = await fetch(url + `?ref=${REPO_BRANCH}&_t=${Date.now()}`, {
+        headers: {
+          'Authorization': `Bearer ${GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github+json',
+          'User-Agent': 'ImageStudio-CMS',
+          'Cache-Control': 'no-cache, no-store'
+        }
+      });
+      if (checkRes.ok) {
+        const checkData = await checkRes.json();
+        existingSha = checkData.sha;
       }
-    });
-    if (checkRes.ok) {
-      const checkData = await checkRes.json();
-      existingSha = checkData.sha;
+    } catch (e) {
+      console.warn('Could not check existing file SHA:', e.message);
     }
-  } catch (e) {
-    console.warn('Could not check existing file SHA:', e.message);
   }
 
   const body = {

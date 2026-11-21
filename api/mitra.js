@@ -101,9 +101,10 @@ module.exports = async function handler(req, res) {
       }
 
       // Update mitra.json
+      const jsonSha = items.__sha;
       const updatedJsonString = JSON.stringify(items, null, 2);
       const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
-      await commitFileToGitHub(MITRA_JSON_PATH, updatedJsonBase64, `chore(mitra): update mitra.json (${name.trim()})`);
+      await commitFileToGitHub(MITRA_JSON_PATH, updatedJsonBase64, `chore(mitra): update mitra.json (${name.trim()})`, jsonSha);
 
       return res.status(200).json({
         success: true,
@@ -135,9 +136,10 @@ module.exports = async function handler(req, res) {
       const [removed] = items.splice(targetIndex, 1);
 
       // Commit updated mitra.json
+      const jsonSha = items.__sha;
       const updatedJsonString = JSON.stringify(items, null, 2);
       const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
-      await commitFileToGitHub(MITRA_JSON_PATH, updatedJsonBase64, `chore(mitra): hapus mitra ${removed.name} (${removed.id})`);
+      await commitFileToGitHub(MITRA_JSON_PATH, updatedJsonBase64, `chore(mitra): hapus mitra ${removed.name} (${removed.id})`, jsonSha);
 
       // If custom file uploaded (starts with /logo_mitra/mitra-), try delete
       let filePath = removed.src.startsWith('/') ? removed.src.substring(1) : removed.src;

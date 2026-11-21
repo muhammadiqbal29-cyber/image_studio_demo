@@ -136,9 +136,10 @@ module.exports = async function handler(req, res) {
         }
 
         slots[key].src = slots[key].defaultSrc;
+        const jsonSha = slots.__sha;
         const updatedJsonString = JSON.stringify(slots, null, 2);
         const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
-        await commitFileToGitHub(SITE_IMAGES_PATH, updatedJsonBase64, `chore(site-images): reset slot ${key} ke default`);
+        await commitFileToGitHub(SITE_IMAGES_PATH, updatedJsonBase64, `chore(site-images): reset slot ${key} ke default`, jsonSha);
 
         return res.status(200).json({
           success: true,
@@ -194,9 +195,10 @@ module.exports = async function handler(req, res) {
 
       // 2. Update site-images.json
       slots[key].src = publicSrc;
+      const jsonSha = slots.__sha;
       const updatedJsonString = JSON.stringify(slots, null, 2);
       const updatedJsonBase64 = Buffer.from(updatedJsonString, 'utf8').toString('base64');
-      await commitFileToGitHub(SITE_IMAGES_PATH, updatedJsonBase64, `chore(site-images): update path slot ${key} di site-images.json`);
+      await commitFileToGitHub(SITE_IMAGES_PATH, updatedJsonBase64, `chore(site-images): update path slot ${key} di site-images.json`, jsonSha);
 
       return res.status(200).json({
         success: true,
