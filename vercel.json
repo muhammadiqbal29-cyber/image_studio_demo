@@ -38,5 +38,77 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/our-services",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/our-services.html",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/about.html",
+      "destination": "/#consultant",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "destination": "/#services",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/quizzes",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/quizzes.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/essences",
+      "destination": "/#discover",
+      "permanent": true
+    },
+    {
+      "source": "/kibbes",
+      "destination": "/#services",
+      "permanent": true
+    }
   ]
 }
