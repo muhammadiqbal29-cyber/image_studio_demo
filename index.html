@@ -4792,6 +4792,52 @@ footer.site-footer.clean-footer,
 .has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(13) { transition-delay: 0.71s; }
 .has-scroll-anim .mitra-logos-grid > .scroll-animate:nth-child(14) { transition-delay: 0.76s; }
 
+/* Floating WhatsApp Button */
+.floating-wa-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99998;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: #25D366;
+  color: #ffffff !important;
+  padding: 12px 20px 12px 16px;
+  border-radius: 50px;
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.42);
+  text-decoration: none !important;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+.floating-wa-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(37, 211, 102, 0.58);
+  color: #ffffff !important;
+}
+.top-btn {
+  bottom: 84px !important;
+  right: 24px !important;
+}
+@media (max-width: 640px) {
+  .floating-wa-btn {
+    bottom: 20px;
+    right: 20px;
+    padding: 13px;
+    border-radius: 50%;
+  }
+  .floating-wa-btn .floating-wa-text {
+    display: none;
+  }
+  .top-btn {
+    bottom: 76px !important;
+    right: 20px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .has-scroll-anim .scroll-animate {
     opacity: 1 !important;
@@ -5222,7 +5268,7 @@ document.addEventListener('keydown', function(e) {
 								</div>
 							</div>
 							<div class="deepdive-header-cta-desktop">
-								<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Face%20Analysis%20%26%20Makeup%20Coaching." target="_blank" class="deepdive-cta-btn">Booking Sesi Ini &rarr;</a>
+								<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Face%20Analysis%20%26%20Makeup%20Coaching." target="_blank" class="deepdive-cta-btn">Booking Sesi Ini &rarr;</a>
 							</div>
 						</div>
 
@@ -5248,7 +5294,7 @@ document.addEventListener('keydown', function(e) {
 						</div>
 
 						<div class="deepdive-cta-row-mobile">
-							<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Face%20Analysis%20%26%20Makeup%20Coaching." target="_blank" class="deepdive-cta-btn">Booking Sesi Face Analysis &rarr;</a>
+							<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Face%20Analysis%20%26%20Makeup%20Coaching." target="_blank" class="deepdive-cta-btn">Booking Sesi Face Analysis &rarr;</a>
 						</div>
 					</div>
 
@@ -5265,7 +5311,7 @@ document.addEventListener('keydown', function(e) {
 								</div>
 							</div>
 							<div class="deepdive-header-cta-desktop">
-								<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Body%20Shape%20Kibbe." target="_blank" class="deepdive-cta-btn btn-accent-yellow">Booking Sesi Ini &rarr;</a>
+								<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Body%20Shape%20Kibbe." target="_blank" class="deepdive-cta-btn btn-accent-yellow">Booking Sesi Ini &rarr;</a>
 							</div>
 						</div>
 
@@ -5291,7 +5337,7 @@ document.addEventListener('keydown', function(e) {
 						</div>
 
 						<div class="deepdive-cta-row-mobile">
-							<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Body%20Shape%20Kibbe." target="_blank" class="deepdive-cta-btn btn-accent-yellow">Booking Sesi Body Shape &rarr;</a>
+							<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Body%20Shape%20Kibbe." target="_blank" class="deepdive-cta-btn btn-accent-yellow">Booking Sesi Body Shape &rarr;</a>
 						</div>
 					</div>
 
@@ -5307,7 +5353,7 @@ document.addEventListener('keydown', function(e) {
 								</div>
 							</div>
 							<div class="deepdive-header-cta-desktop">
-								<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Discovery%20Wardrobe." target="_blank" class="deepdive-cta-btn btn-accent-black">Booking Sesi Ini &rarr;</a>
+								<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Discovery%20Wardrobe." target="_blank" class="deepdive-cta-btn btn-accent-black">Booking Sesi Ini &rarr;</a>
 							</div>
 						</div>
 
@@ -5320,7 +5366,7 @@ document.addEventListener('keydown', function(e) {
 						</div>
 
 						<div class="deepdive-cta-row-mobile">
-							<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Discovery%20Wardrobe." target="_blank" class="deepdive-cta-btn btn-accent-black">Booking Sesi Wardrobe &rarr;</a>
+							<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20sesi%20Discovery%20Wardrobe." target="_blank" class="deepdive-cta-btn btn-accent-black">Booking Sesi Wardrobe &rarr;</a>
 						</div>
 					</div>
 				</div>
@@ -5541,7 +5587,7 @@ document.addEventListener('keydown', function(e) {
 
 				<div class="mitra-collab-cta">
 					<span>Ingin mengadakan <strong>Corporate Grooming</strong> atau <strong>Workshop Eksklusif</strong> di institusi Anda?</span>
-					<a href="https://wa.me/6281351111663?text=Halo%20Hanum%20Image%20Studio%2C%20saya%20tertarik%20konsultasi%20program%20corporate%20workshop%20%2F%20kolaborasi%20mitra" target="_blank" rel="noopener">
+					<a href="https://wa.me/6281255583806?text=Halo%20Hanum%20Image%20Studio%2C%20saya%20tertarik%20konsultasi%20program%20corporate%20workshop%20%2F%20kolaborasi%20mitra" target="_blank" rel="noopener">
 						Konsultasi Program B2B &rarr;
 					</a>
 				</div>
@@ -5583,13 +5629,13 @@ document.addEventListener('keydown', function(e) {
 					<p style="font-size: 15px; color: #d6cfc7; max-width: 680px; margin: 0 auto 25px; line-height: 1.6;">Konsultasikan kebutuhan style dan jadwal sesi Anda langsung bersama tim kami melalui WhatsApp.</p>
 					
 					<div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 28px;">
-						<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Personal%20Color%20Analysis." target="_blank" class="booking-pill-btn pill-cyan">Personal Color</a>
-						<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Face%20Analysis." target="_blank" class="booking-pill-btn pill-red">Face Analysis</a>
-						<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Kibbe%20Body%20Shape%20Analysis." target="_blank" class="booking-pill-btn pill-yellow">Body Shape Kibbe</a>
-						<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Discovery%20Wardrobe." target="_blank" class="booking-pill-btn pill-neutral">Discovery Wardrobe</a>
+						<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Personal%20Color%20Analysis." target="_blank" class="booking-pill-btn pill-cyan">Personal Color</a>
+						<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Face%20Analysis." target="_blank" class="booking-pill-btn pill-red">Face Analysis</a>
+						<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Kibbe%20Body%20Shape%20Analysis." target="_blank" class="booking-pill-btn pill-yellow">Body Shape Kibbe</a>
+						<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20booking%20Discovery%20Wardrobe." target="_blank" class="booking-pill-btn pill-neutral">Discovery Wardrobe</a>
 					</div>
 
-					<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20konsultasi%20dan%20booking%20sesi." target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: #25D366; color: #ffffff !important; padding: 14px 34px; border-radius: 30px; text-decoration: none !important; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 4px 18px rgba(37,211,102,0.35); transition: transform 0.2s ease;">
+					<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20konsultasi%20dan%20booking%20sesi." target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 9px; background: #25D366; color: #ffffff !important; padding: 14px 34px; border-radius: 30px; text-decoration: none !important; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; box-shadow: 0 4px 18px rgba(37,211,102,0.35); transition: transform 0.2s ease;">
 						<svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="flex-shrink:0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
 						Hubungi Admin via WhatsApp
 					</a>
@@ -5632,6 +5678,12 @@ document.addEventListener('keydown', function(e) {
 
 		<div id="top-btn "><a class="top-btn" href="#top" title="ToTop"><span class="dashicons dashicons-arrow-up-alt2"></span></a></div>
 
+		<!-- FLOATING WHATSAPP CTA -->
+		<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio,%20saya%20ingin%20konsultasi%20dan%20booking%20sesi." target="_blank" rel="noopener" class="floating-wa-btn" aria-label="Chat WhatsApp Admin" title="Hubungi Kami via WhatsApp">
+			<svg width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" style="flex-shrink:0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+			<span class="floating-wa-text">Konsultasi WhatsApp</span>
+		</a>
+
 		<!-- CLEAN FOOTER -->
 		<footer class="site-footer clean-footer" id="contact" itemscope itemtype="https://schema.org/WPFooter">
 			<div class="clean-footer-grid">
@@ -5670,8 +5722,9 @@ document.addEventListener('keydown', function(e) {
 					<h4>Kontak &amp; Jadwal</h4>
 					<p style="margin-bottom: 8px;"><strong>Jam Operasional:</strong><br>Senin &ndash; Sabtu: 09:00 &ndash; 17:00 WIB</p>
 					<p style="margin-bottom: 12px;"><strong>Studio Offline:</strong><br>Sesi privat &amp; group by appointment</p>
-					<a href="https://wa.me/6281234567890?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio" target="_blank" style="display: inline-block; background: #25D366; color: #ffffff; padding: 8px 18px; border-radius: 20px; text-decoration: none; font-size: 12px; font-weight: 700;">
-						WhatsApp Kami
+					<a href="https://wa.me/6281255583806?text=Halo%20Admin%20Hanum%20Personal%20Image%20Studio" target="_blank" style="display: inline-flex; align-items: center; gap: 7px; background: #25D366; color: #ffffff !important; padding: 9px 18px; border-radius: 20px; text-decoration: none !important; font-size: 13px; font-weight: 700; box-shadow: 0 4px 14px rgba(37,211,102,0.35); transition: transform 0.2s ease;">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="#ffffff" style="flex-shrink:0;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+						0812-5558-3806
 					</a>
 				</div>
 			</div>
